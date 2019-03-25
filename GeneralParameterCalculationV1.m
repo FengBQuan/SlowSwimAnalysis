@@ -3,11 +3,11 @@ clear
 %load('matlab sst_20191101_protocole1.mat')
 
 %% load the dataset file
-InitialFolder='/Users/bong-iquan/MATLAB/sst1.1 mutant/Slow swim/Analysis_SST_20190221';
+InitialFolder='/Users/bong-iquan/MATLAB/sst1.1_mutant/Slow_swim';
  
 % Figure out how many trials to analyse
 cd(InitialFolder)
-list=dir('*_workspace_tracking test*');
+list=dir('*_workspace_SST_20190220_new2*');
 %list2=list([list.isdir]==0);%list all folders but no file (make sure I have only folders) 1==folder; 0==file;
 NFolder=size(list,1);
 
