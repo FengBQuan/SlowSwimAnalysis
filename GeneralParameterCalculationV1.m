@@ -1,6 +1,5 @@
  %% Clean workspace and load data
-clear
-%load('matlab sst_20191101_protocole1.mat')
+ clear 
 
 %% load the dataset file
 InitialFolder='/Users/bong-iquan/MATLAB/sst1.1_mutant/Slow_swim';
@@ -56,17 +55,6 @@ output = struct('Fish', [], 'NumberFish',[], 'Genotypes', [], 'geno_index', [], 
      'FishGeno',[],'Fish_G2',[], 'Fish_G1',[],'Fish_G0',[]);
 
 close all;
-
-% 
-% if contains(fileName,'20180926')
-%     EscapeWindow = [105110 105310];
-% elseif contains(fileName,'20190111')
-%     EscapeWindow = [30133 30275];
-% elseif contains(fileName,'20190213')
-%     EscapeWindow = [30037 30286];
-% else
-%     EscapeWindow = [30082 30282];
-% end;
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 % find fish number and genotypes
 
@@ -100,12 +88,7 @@ for i=1:NumberFish;
     Bouts_Pre_Escape= allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]< EscapeWindow(1)));
     Bouts_Post_Escape= allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]>EscapeWindow(2)));
     
-   
-    
 
-    
-    
-    
     %calculate Pre_Escape
     IBI_pre{Fish(i)} = [datasetPerBout(BoutsIBI_Pre_Escape).InstantaneousIBI];
     TimeBout_pre{Fish(i)} = [datasetPerBout(BoutsIBI_Pre_Escape).BoutStart];
@@ -116,23 +99,6 @@ for i=1:NumberFish;
     Speed_pre{Fish(i)}=[datasetPerBout(Bouts_Pre_Escape).Speed];
     nBout_pre{Fish(i)}= length(Bouts_Pre_Escape);
     TBF_pre{Fish(i)}=[datasetPerBout(Bouts_Pre_Escape).InstantaneousTBF];
-    
-    
-    
-    
-    
-    
-    
-    %IBI_pre{Fish(i)} = [datasetPerBout(index{Fish(i)}(find([datasetPerBout(index{Fish(i)}).BoutStart]< EscapeWindow(1)))).InstantaneousIBI];
-    %TimeBout_pre{Fish(i)} = [datasetPerBout(index{Fish(i)}(find([datasetPerBout(index{Fish(i)}).BoutStart]<EscapeWindow(1)))).BoutStart];
-    
-%     BoutDuration_pre{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]< EscapeWindow(1)))).BoutDuration];
-%     NumberOfOscillations_pre{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]< EscapeWindow(1)))).NumberOfOscillations];
-%     BoutDistance_pre{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]< EscapeWindow(1)))).TotalDistance];
-%     Speed_pre{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]< EscapeWindow(1)))).Speed];
-%     nBout_pre{Fish(i)}= length(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]< EscapeWindow(1))));
-%     TBF_pre{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]< EscapeWindow(1)))).InstantaneousTBF];
-    
 
 
      %calculate Post_Escape
@@ -146,34 +112,21 @@ for i=1:NumberFish;
     Speed_post{Fish(i)}=[datasetPerBout(Bouts_Post_Escape).Speed];
     nBout_post{Fish(i)}=length(Bouts_Post_Escape);
     TBF_post{Fish(i)}=[datasetPerBout(Bouts_Post_Escape).InstantaneousTBF];
-    
-    
-    %IBI_post{Fish(i)}= [datasetPerBout(index{Fish(i)}(find([datasetPerBout(index{Fish(i)}).BoutStart]> EscapeWindow(2)))).InstantaneousIBI];
-    %TimeBout_post{Fish(i)} = [datasetPerBout(index{Fish(i)}(find([datasetPerBout(index{Fish(i)}).BoutStart]>EscapeWindow(2)))).BoutStart];
-    
-%     BoutDuration_post{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]>EscapeWindow(2)))).BoutDuration];
-%     NumberOfOscillations_post{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]>EscapeWindow(2)))).NumberOfOscillations];
-%     BoutDistance_post{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]>EscapeWindow(2)))).TotalDistance];
-%     Speed_post{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]>EscapeWindow(2)))).Speed];
-%     nBout_post{Fish(i)}=length( allindex{Fish(i)}( find( [datasetPerBout(allindex{Fish(i)}).BoutStart]>EscapeWindow(2) ) ) );
-%     TBF_post{Fish(i)}=[datasetPerBout(allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]>EscapeWindow(2)))).InstantaneousTBF];
-     
-        
-      % calculate parameters for all swims
-%     IBI{Fish(i)} = [datasetPerBout(index{Fish(i)}).InstantaneousIBI];
-%     TimeBoutIBI{Fish(i)} = [datasetPerBout(index{Fish(i)}).BoutStart];
-% 
-%     TimeBout{Fish(i)} =[datasetPerBout(allindex{Fish(i)}).BoutStart];
+ 
+            
+    % calculate parameters for all swims
+      
+      IBI{Fish(i)} = [datasetPerBout(index{Fish(i)}).InstantaneousIBI];
+      TimeBoutIBI{Fish(i)} = [datasetPerBout(index{Fish(i)}).BoutStart];
+      
+      TimeBout{Fish(i)} =[datasetPerBout(allindex{Fish(i)}).BoutStart];
+      nBout{Fish(i)}=(nBout_pre{Fish(i)})+(nBout_post{Fish(i)});
+      
 %     BoutDuration{Fish(i)}=[datasetPerBout(allindex{Fish(i)}).BoutDuration];
 %     Distance{Fish(i)}=[datasetPerBout(allindex{Fish(i)}).TotalDistance];
 %     Speed{Fish(i)}=[datasetPerBout(allindex{Fish(i)}).Speed];
 %     NumberOfOscillations{Fish(i)}=[datasetPerBout(allindex{Fish(i)}).NumberOfOscillations];
-    nBout{Fish(i)}=(nBout_pre{Fish(i)})+(nBout_post{Fish(i)});
-    
-    %Find genotype position
-%     G0=find(~[geno_index{:}]);
-%     G1=find([geno_index{:}]==1);
-%     G2=find([geno_index{:}]==2);
+   
 
     % now calculate parameters for each bout 
     
@@ -269,14 +222,6 @@ Compt_NTrial=Compt_NTrial+1;
 % output.Fish_G1=Fish_G1;
 % output.Fish_G2=Fish_G2;
 
-
-% output.G0=G0;
-% output.G1=G1;
-% output.G2=G2;
-% output.Genotypes=Genotypes;
-% output.geno_index=geno_index;
-% 
-
 % 
 % output.IBI_pre=IBI_pre;
 % output.TimeBout_pre=TimeBout_pre;
@@ -294,9 +239,7 @@ Compt_NTrial=Compt_NTrial+1;
 % output.Speed_post=Speed_post;
 % output.BoutDistance_post=BoutDistance_post;
 % output.nBout_post=nBout_post;
-% 
-
-
+ 
 
 % output.IBI=IBI;
 % output.TimeBoutIBI=TimeBoutIBI;
@@ -446,11 +389,14 @@ end;
 
 %% PLot BoutDuration
 
-plot_BoutDuration_WT(G2meanBoutDuration_pre,G2meanBoutDuration_post);
+h1=figure(1); % Compare bout durations per conditions (genotypes Homo, Het, Wt)
+title('Bout Duration (sec)');  
+
+plot_WT_scatter(G2meanBoutDuration_pre,G2meanBoutDuration_post);
 hold on;
-plot_BoutDuration_Het(G1meanBoutDuration_pre,G1meanBoutDuration_post);
+plot_Het_scatter(G1meanBoutDuration_pre,G1meanBoutDuration_post);
 hold on;
-plot_BoutDuration_Homo(G0meanBoutDuration_pre,G0meanBoutDuration_post);
+plot_Homo_scatter(G0meanBoutDuration_pre,G0meanBoutDuration_post);
 hold off;
 
 % saveas(h1,['Bout Duration.fig'])
@@ -458,113 +404,28 @@ hold off;
 %% Plot Number of Oscillation
 
 h2=figure(2); % Compare Number of Oscillation per conditions (genotypes Homo, Het, Wt)
-title('Number Of Oscillations');   
+title('Number Of Oscillations'); 
 
-%Plot WT
-G2groupe_pre= ones(1,numel(cell2mat(G2meanNumOfOsc_pre)));
-G2groupe_post= ones(1,numel(cell2mat(G2meanNumOfOsc_post)))*5;
-
-[median_G2NumOfOsc_pre,SEM_G2NumOfOsc_pre]=grpstats(cell2mat(G2meanNumOfOsc_pre),G2groupe_pre,{'median','sem'});
-[median_G2NumOfOsc_post,SEM_G2NumOfOsc_post]=grpstats(cell2mat(G2meanNumOfOsc_post),G2groupe_post,{'median','sem'});
-sz=20;
-scatter(G2groupe_pre, cell2mat(G2meanNumOfOsc_pre),sz,'b','filled');title('Number Of Oscillations');   hold on;
-scatter(G2groupe_post, cell2mat(G2meanNumOfOsc_post),sz,'b','filled');title('Number Of Oscillations');   
-jitter1;
-xlim([0.5 8]);
+plot_WT_scatter(G2meanNumOfOsc_pre,G2meanNumOfOsc_post);
 hold on;
-errorbar(1, median_G2NumOfOsc_pre, SEM_G2NumOfOsc_pre,'k');hold on;
-errorbar(5, median_G2NumOfOsc_post, SEM_G2NumOfOsc_pre,'k');hold on;
-
-%Plot Het
-G1groupe_pre= ones(1,numel(cell2mat(G1meanNumOfOsc_pre)))*2;
-G1groupe_post= ones(1,numel(cell2mat(G1meanNumOfOsc_post)))*6;
- 
-[median_G1NumOfOsc_pre,SEM_G1NumOfOsc_pre]=grpstats(cell2mat(G1meanNumOfOsc_pre),G1groupe_pre,{'median','sem'});
-[median_G1NumOfOsc_post,SEM_G1NumOfOsc_post]=grpstats(cell2mat(G1meanNumOfOsc_post),G1groupe_post,{'median','sem'});
-sz=20;
-scatter(G1groupe_pre, cell2mat(G1meanNumOfOsc_pre),sz,'g','filled');title('Number Of Oscillations');   hold on;
-scatter(G1groupe_post, cell2mat(G1meanNumOfOsc_post),sz,'g','filled');title('Number Of Oscillations');   
-jitter1;
-xlim([0.5 8]);
+plot_Het_scatter(G1meanNumOfOsc_pre,G1meanNumOfOsc_post);
 hold on;
-errorbar(2, median_G1NumOfOsc_pre, SEM_G1NumOfOsc_pre,'k');hold on;
-errorbar(6, median_G1NumOfOsc_post, SEM_G1NumOfOsc_pre,'k');hold on;
+plot_Homo_scatter(G0meanNumOfOsc_pre,G0meanNumOfOsc_post);
+hold off;
 
-
-%Plot Homo
-G0groupe_pre= ones(1,numel(cell2mat(G0meanNumOfOsc_pre)))*3;
-G0groupe_post= ones(1,numel(cell2mat(G0meanNumOfOsc_post)))*7;
- 
-[median_G0NumOfOsc_pre,SEM_G0NumOfOsc_pre]=grpstats(cell2mat(G0meanNumOfOsc_pre),G0groupe_pre,{'median','sem'});
-[median_G0NumOfOsc_post,SEM_G0NumOfOsc_post]=grpstats(cell2mat(G0meanNumOfOsc_post),G0groupe_post,{'median','sem'});
-sz=20;
-scatter(G0groupe_pre, cell2mat(G0meanNumOfOsc_pre),sz,'r','filled');title('Number Of Oscillations');   hold on;
-scatter(G0groupe_post, cell2mat(G0meanNumOfOsc_post),sz,'r','filled');title('Number Of Oscillations');   
-jitter1;
-xlim([0.5 8]);
-hold on;
-errorbar(3, median_G0NumOfOsc_pre, SEM_G0NumOfOsc_pre,'k');hold on;
-errorbar(7, median_G0NumOfOsc_post, SEM_G0NumOfOsc_pre,'k');hold on;
-
-%saveas(h2,['Number of Oscillations.fig'])
+% saveas(h2,['Number of Oscillations.fig'])
 % saveas(h2,['Number of Oscillations.png'])  
-
 %% Bout Distance
 
 h3=figure(3); % Compare Bout Distance per conditions (genotypes Homo, Het, Wt)
-title('Bout Distance');   
+title('Bout Distance (mm)');  
 
-%Plot WT
-G2groupe_pre= ones(1,numel(cell2mat(G2meanBoutDistance_pre)));
-G2groupe_post= ones(1,numel(cell2mat(G2meanBoutDistance_post)))*5;%datasetPerFish(Fish_G2(l)).Genotype
- 
-[median_G2BoutDistance_pre,SEM_G2BoutDistance_pre]=grpstats(cell2mat(G2meanBoutDistance_pre),G2groupe_pre,{'median','sem'});
-[median_G2BoutDistance_post,SEM_G2BoutDistance_post]=grpstats(cell2mat(G2meanBoutDistance_post),G2groupe_post,{'median','sem'});
-%[median_G2_Ratio,SEM_G2_Ratio]=grpstats(G2_Ratio,G2groupe_post,{'median','sem'});
-sz=20;
-scatter(G2groupe_pre, cell2mat(G2meanBoutDistance_pre),sz,'b','filled');title('Bout Distance (mm)'); hold on;
-scatter(G2groupe_post, cell2mat(G2meanBoutDistance_post),sz,'b','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
+plot_WT_scatter(G2meanBoutDistance_pre,G2meanBoutDistance_post);
 hold on;
-errorbar(1, median_G2BoutDistance_pre, SEM_G2BoutDistance_pre,'k');hold on;
-errorbar(5, median_G2BoutDistance_post, SEM_G2BoutDistance_post,'k');hold on;
- 
- 
-%Plot Het
-G1groupe_pre= ones(1,numel(cell2mat(G1meanBoutDistance_pre)))*2;
-G1groupe_post= ones(1,numel(cell2mat(G1meanBoutDistance_post)))*6;
- 
-[median_G1BoutDistance_pre,SEM_G1BoutDistance_pre]=grpstats(cell2mat(G1meanBoutDistance_pre),G1groupe_pre,{'median','sem'});
-[median_G1BoutDistance_post,SEM_G1BoutDistance_post]=grpstats(cell2mat(G1meanBoutDistance_post),G1groupe_post,{'median','sem'});
-sz=20;
-scatter(G1groupe_pre, cell2mat(G1meanBoutDistance_pre),sz,'g','filled');hold on;
-scatter(G1groupe_post, cell2mat(G1meanBoutDistance_post),sz,'g','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
+plot_Het_scatter(G1meanBoutDistance_pre,G1meanBoutDistance_post);
 hold on;
-errorbar(2, median_G1BoutDistance_pre, SEM_G1BoutDistance_pre,'k');hold on;
-errorbar(6, median_G1BoutDistance_post, SEM_G1BoutDistance_post,'k');hold on;
- 
- 
-%Plot Homo
-G0groupe_pre= ones(1,numel(cell2mat(G0meanBoutDistance_pre)))*3;
-G0groupe_post= ones(1,numel(cell2mat(G0meanBoutDistance_post)))*7;
- 
-[median_G0BoutDistance_pre,SEM_G0BoutDistance_pre]=grpstats(cell2mat(G0meanBoutDistance_pre),G0groupe_pre,{'median','sem'});
-[median_G0BoutDistance_post,SEM_G0BoutDistance_post]=grpstats(cell2mat(G0meanBoutDistance_post),G0groupe_post,{'median','sem'});
-sz=20;
-scatter(G0groupe_pre, cell2mat(G0meanBoutDistance_pre),sz,'r','filled');hold on;
-scatter(G0groupe_post, cell2mat(G0meanBoutDistance_post),sz,'r','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(3, median_G0BoutDistance_pre, SEM_G0BoutDistance_pre,'k');hold on;
-errorbar(7, median_G0BoutDistance_post, SEM_G0BoutDistance_post,'k');hold off;
-
+plot_Homo_scatter(G0meanBoutDistance_pre,G0meanBoutDistance_post);
+hold off;
 
 %saveas(h3,['BoutDistance.fig'])
 % saveas(h3,['BoutDistance.png'])  
@@ -572,239 +433,63 @@ errorbar(7, median_G0BoutDistance_post, SEM_G0BoutDistance_post,'k');hold off;
 %% Speed 
 
 h4=figure(4); % Compare Speed per conditions (genotypes Homo, Het, Wt)
-title('Speed'); 
+title('Speed (mm/s)');
 
-%Plot WT
-G2groupe_pre= ones(1,numel(cell2mat(G2meanSpeed_pre)));
-G2groupe_post= ones(1,numel(cell2mat(G2meanSpeed_post)))*5;%datasetPerFish(Fish_G2(l)).Genotype
- 
-[median_G2Speed_pre,SEM_G2Speed_pre]=grpstats(cell2mat(G2meanSpeed_pre),G2groupe_pre,{'median','sem'});
-[median_G2Speed_post,SEM_G2Speed_post]=grpstats(cell2mat(G2meanSpeed_post),G2groupe_post,{'median','sem'});
-%[median_G2_Ratio,SEM_G2_Ratio]=grpstats(G2_Ratio,G2groupe_post,{'median','sem'});
-sz=20;
-scatter(G2groupe_pre, cell2mat(G2meanSpeed_pre),sz,'b','filled');title('Speed (mm/s)'); hold on;
-scatter(G2groupe_post, cell2mat(G2meanSpeed_post),sz,'b','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
+plot_WT_scatter(G2meanSpeed_pre,G2meanSpeed_post);
 hold on;
-errorbar(1, median_G2Speed_pre, SEM_G2Speed_pre,'k');hold on;
-errorbar(5, median_G2Speed_post, SEM_G2Speed_post,'k');hold on;
- 
- 
-%Plot Het
-G1groupe_pre= ones(1,numel(cell2mat(G1meanSpeed_pre)))*2;
-G1groupe_post= ones(1,numel(cell2mat(G1meanSpeed_post)))*6;
- 
-[median_G1Speed_pre,SEM_G1Speed_pre]=grpstats(cell2mat(G1meanSpeed_pre),G1groupe_pre,{'median','sem'});
-[median_G1Speed_post,SEM_G1Speed_post]=grpstats(cell2mat(G1meanSpeed_post),G1groupe_post,{'median','sem'});
-sz=20;
-scatter(G1groupe_pre, cell2mat(G1meanSpeed_pre),sz,'g','filled');hold on;
-scatter(G1groupe_post, cell2mat(G1meanSpeed_post),sz,'g','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
+plot_Het_scatter(G1meanSpeed_pre,G1meanSpeed_post);
 hold on;
-errorbar(2, median_G1Speed_pre, SEM_G1Speed_pre,'k');hold on;
-errorbar(6, median_G1Speed_post, SEM_G1Speed_post,'k');hold on;
- 
- 
-%Plot Homo
-G0groupe_pre= ones(1,numel(cell2mat(G0meanSpeed_pre)))*3;
-G0groupe_post= ones(1,numel(cell2mat(G0meanSpeed_post)))*7;
- 
-[median_G0Speed_pre,SEM_G0Speed_pre]=grpstats(cell2mat(G0meanSpeed_pre),G0groupe_pre,{'median','sem'});
-[median_G0Speed_post,SEM_G0Speed_post]=grpstats(cell2mat(G0meanSpeed_post),G0groupe_post,{'median','sem'});
-sz=20;
-scatter(G0groupe_pre, cell2mat(G0meanSpeed_pre),sz,'r','filled');hold on;
-scatter(G0groupe_post, cell2mat(G0meanSpeed_post),sz,'r','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(3, median_G0Speed_pre, SEM_G0Speed_pre,'k');hold on;
-errorbar(7, median_G0Speed_post, SEM_G0Speed_post,'k');hold off;
+plot_Homo_scatter(G0meanSpeed_pre,G0meanSpeed_post);
+hold off;
 
-%saveas(h4,['Speed.fig'])
+% saveas(h4,['Speed.fig'])
 % saveas(h4,['Speed.png'])  
 
 %% TBF 
  
-h4=figure(4); % Compare TBF per conditions (genotypes Homo, Het, Wt)
+h5=figure(5); % Compare TBF per conditions (genotypes Homo, Het, Wt)
 title('TBF'); 
- 
-%Plot WT
-G2groupe_pre= ones(1,numel(cell2mat(G2meanTBF_pre)));
-G2groupe_post= ones(1,numel(cell2mat(G2meanTBF_post)))*5;%datasetPerFish(Fish_G2(l)).Genotype
- 
-[median_G2TBF_pre,SEM_G2TBF_pre]=grpstats(cell2mat(G2meanTBF_pre),G2groupe_pre,{'median','sem'});
-[median_G2TBF_post,SEM_G2TBF_post]=grpstats(cell2mat(G2meanTBF_post),G2groupe_post,{'median','sem'});
-%[median_G2_Ratio,SEM_G2_Ratio]=grpstats(G2_Ratio,G2groupe_post,{'median','sem'});
-sz=20;
-scatter(G2groupe_pre, cell2mat(G2meanTBF_pre),sz,'b','filled');title('TBF (mm/s)'); hold on;
-scatter(G2groupe_post, cell2mat(G2meanTBF_post),sz,'b','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(1, median_G2TBF_pre, SEM_G2TBF_pre,'k');hold on;
-errorbar(5, median_G2TBF_post, SEM_G2TBF_post,'k');hold on;
- 
- 
-%Plot Het
-G1groupe_pre= ones(1,numel(cell2mat(G1meanTBF_pre)))*2;
-G1groupe_post= ones(1,numel(cell2mat(G1meanTBF_post)))*6;
- 
-[median_G1TBF_pre,SEM_G1TBF_pre]=grpstats(cell2mat(G1meanTBF_pre),G1groupe_pre,{'median','sem'});
-[median_G1TBF_post,SEM_G1TBF_post]=grpstats(cell2mat(G1meanTBF_post),G1groupe_post,{'median','sem'});
-sz=20;
-scatter(G1groupe_pre, cell2mat(G1meanTBF_pre),sz,'g','filled');hold on;
-scatter(G1groupe_post, cell2mat(G1meanTBF_post),sz,'g','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(2, median_G1TBF_pre, SEM_G1TBF_pre,'k');hold on;
-errorbar(6, median_G1TBF_post, SEM_G1TBF_post,'k');hold on;
- 
- 
-%Plot Homo
-G0groupe_pre= ones(1,numel(cell2mat(G0meanTBF_pre)))*3;
-G0groupe_post= ones(1,numel(cell2mat(G0meanTBF_post)))*7;
- 
-[median_G0TBF_pre,SEM_G0TBF_pre]=grpstats(cell2mat(G0meanTBF_pre),G0groupe_pre,{'median','sem'});
-[median_G0TBF_post,SEM_G0TBF_post]=grpstats(cell2mat(G0meanTBF_post),G0groupe_post,{'median','sem'});
-sz=20;
-scatter(G0groupe_pre, cell2mat(G0meanTBF_pre),sz,'r','filled');hold on;
-scatter(G0groupe_post, cell2mat(G0meanTBF_post),sz,'r','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(3, median_G0TBF_pre, SEM_G0TBF_pre,'k');hold on;
-errorbar(7, median_G0TBF_post, SEM_G0TBF_post,'k');hold off;
- 
-%saveas(h4,['TBF.fig'])
-%saveas(h4,['TBF.png'])
 
+
+plot_WT_scatter(G2meanTBF_pre,G2meanTBF_post);
+hold on;
+plot_Het_scatter(G1meanTBF_pre,G1meanTBF_post);
+hold on;
+plot_Homo_scatter(G0meanTBF_pre,G0meanTBF_post);
+hold off;
+ 
+%saveas(h5,['TBF.fig'])
+%saveas(h5,['TBF.png'])
 
 %% PLot IBI
  
-h5=figure(5); % Compare bout durations per conditions (genotypes Homo, Het, Wt)
+h6=figure(6); % Compare bout durations per conditions (genotypes Homo, Het, Wt)
 title('IBI (sec)');    
- 
-%Plot WT
-G2groupe_pre= ones(1,numel(cell2mat(G2meanIBI_pre)));
-G2groupe_post= ones(1,numel(cell2mat(G2meanIBI_post)))*5;%datasetPerFish(Fish_G2(l)).Genotype
- 
-[median_G2IBIpre,SEM_G2IBIpre]=grpstats(cell2mat(G2meanIBI_pre),G2groupe_pre,{'median','sem'});
-[median_G2IBIpost,SEM_G2IBIpost]=grpstats(cell2mat(G2meanIBI_post),G2groupe_post,{'median','sem'});
-%[median_G2_Ratio,SEM_G2_Ratio]=grpstats(G2_Ratio,G2groupe_post,{'median','sem'});
-sz=20;
-scatter(G2groupe_pre, cell2mat(G2meanIBI_pre),sz,'b','filled');title('IBI (sec)'); hold on;
-scatter(G2groupe_post, cell2mat(G2meanIBI_post),sz,'b','filled'); 
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
+
+plot_WT_scatter(G2meanIBI_pre,G2meanIBI_post);
 hold on;
-errorbar(1, median_G2IBIpre, SEM_G2IBIpre,'k');hold on;
-errorbar(5, median_G2IBIpost, SEM_G2IBIpost,'k');hold on;
- 
- 
-%Plot Het
-G1groupe_pre= ones(1,numel(cell2mat(G1meanIBI_pre)))*2;
-G1groupe_post= ones(1,numel(cell2mat(G1meanIBI_post)))*6;
- 
-[median_G1IBIpre,SEM_G1IBIpre]=grpstats(cell2mat(G1meanIBI_pre),G1groupe_pre,{'median','sem'});
-[median_G1IBIpost,SEM_G1IBIpost]=grpstats(cell2mat(G1meanIBI_post),G1groupe_post,{'median','sem'});
-sz=20;
-scatter(G1groupe_pre, cell2mat(G1meanIBI_pre),sz,'g','filled');hold on;
-scatter(G1groupe_post, cell2mat(G1meanIBI_post),sz,'g','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
+plot_Het_scatter(G1meanIBI_pre,G1meanIBI_post);
 hold on;
-errorbar(2, median_G1IBIpre, SEM_G1IBIpre,'k');hold on;
-errorbar(6, median_G1IBIpost, SEM_G1IBIpost,'k');hold on;
- 
- 
-%Plot Homo
-G0groupe_pre= ones(1,numel(cell2mat(G0meanIBI_pre)))*3;
-G0groupe_post= ones(1,numel(cell2mat(G0meanIBI_post)))*7;
- 
-[median_G0IBIpre,SEM_G0IBIpre]=grpstats(cell2mat(G0meanIBI_pre),G0groupe_pre,{'median','sem'});
-[median_G0IBIpost,SEM_G0IBIpost]=grpstats(cell2mat(G0meanIBI_post),G0groupe_post,{'median','sem'});
-sz=20;
-scatter(G0groupe_pre, cell2mat(G0meanIBI_pre),sz,'r','filled');hold on;
-scatter(G0groupe_post, cell2mat(G0meanIBI_post),sz,'r','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(3, median_G0IBIpre, SEM_G0IBIpre,'k');hold on;
-errorbar(7, median_G0IBIpost, SEM_G0IBIpost,'k');hold off;
- 
-%saveas(h5,['IBI.fig'])
-% saveas(h5,['IBI.png'])
+plot_Homo_scatter(G0meanIBI_pre,G0meanIBI_post);
+hold off;
+
+% saveas(h6,['IBI.fig'])
+% saveas(h6,['IBI.png'])
+
 %% nBout
 
-h4=figure(4); % Compare _nBout per conditions (genotypes Homo, Het, Wt)
+h7=figure(7); % Compare _nBout per conditions (genotypes Homo, Het, Wt)
 title('nBout'); 
- 
-%Plot WT
-G2groupe_pre= ones(1,numel(cell2mat(G2mean_nBout_pre)));
-G2groupe_post= ones(1,numel(cell2mat(G2mean_nBout_post)))*5;%datasetPerFish(Fish_G2(l)).Genotype
- 
-[median_G2_nBout_pre,SEM_G2_nBout_pre]=grpstats(cell2mat(G2mean_nBout_pre),G2groupe_pre,{'median','sem'});
-[median_G2_nBout_post,SEM_G2_nBout_post]=grpstats(cell2mat(G2mean_nBout_post),G2groupe_post,{'median','sem'});
-%[median_G2_Ratio,SEM_G2_Ratio]=grpstats(G2_Ratio,G2groupe_post,{'median','sem'});
-sz=20;
-scatter(G2groupe_pre, cell2mat(G2mean_nBout_pre),sz,'b','filled');title('nBout'); hold on;
-scatter(G2groupe_post, cell2mat(G2mean_nBout_post),sz,'b','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(1, median_G2_nBout_pre, SEM_G2_nBout_pre,'k');hold on;
-errorbar(5, median_G2_nBout_post, SEM_G2_nBout_post,'k');hold on;
- 
- 
-%Plot Het
-G1groupe_pre= ones(1,numel(cell2mat(G1mean_nBout_pre)))*2;
-G1groupe_post= ones(1,numel(cell2mat(G1mean_nBout_post)))*6;
- 
-[median_G1_nBout_pre,SEM_G1_nBout_pre]=grpstats(cell2mat(G1mean_nBout_pre),G1groupe_pre,{'median','sem'});
-[median_G1_nBout_post,SEM_G1_nBout_post]=grpstats(cell2mat(G1mean_nBout_post),G1groupe_post,{'median','sem'});
-sz=20;
-scatter(G1groupe_pre, cell2mat(G1mean_nBout_pre),sz,'g','filled');hold on;
-scatter(G1groupe_post, cell2mat(G1mean_nBout_post),sz,'g','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(2, median_G1_nBout_pre, SEM_G1_nBout_pre,'k');hold on;
-errorbar(6, median_G1_nBout_post, SEM_G1_nBout_post,'k');hold on;
- 
- 
-%Plot Homo
-G0groupe_pre= ones(1,numel(cell2mat(G0mean_nBout_pre)))*3;
-G0groupe_post= ones(1,numel(cell2mat(G0mean_nBout_post)))*7;
- 
-[median_G0_nBout_pre,SEM_G0_nBout_pre]=grpstats(cell2mat(G0mean_nBout_pre),G0groupe_pre,{'median','sem'});
-[median_G0_nBout_post,SEM_G0_nBout_post]=grpstats(cell2mat(G0mean_nBout_post),G0groupe_post,{'median','sem'});
-sz=20;
-scatter(G0groupe_pre, cell2mat(G0mean_nBout_pre),sz,'r','filled');hold on;
-scatter(G0groupe_post, cell2mat(G0mean_nBout_post),sz,'r','filled');
-jitter1;
-xlim([0.5 8]);
-%ylim([0.05 0.25]);
-hold on;
-errorbar(3, median_G0_nBout_pre, SEM_G0_nBout_pre,'k');hold on;
-errorbar(7, median_G0_nBout_post, SEM_G0_nBout_post,'k');hold off;
- 
-% saveas(h4,['nBout.fig'])
-% saveas(h4,['_nBout.png'])  
 
+plot_WT_scatter(G2mean_nBout_pre,G2mean_nBout_post);
+hold on;
+plot_Het_scatter(G1mean_nBout_pre,G1mean_nBout_post);
+hold on;
+plot_Homo_scatter(G0mean_nBout_pre,G0mean_nBout_post);
+hold off;
+ 
+% saveas(h7,['nBout.fig'])
+% saveas(h7,['nBout.png'])  
 
 %% Single IBI plot
 % h4=figure(4); %Plot single IBI before (X) and after (Y) escape
