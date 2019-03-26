@@ -1,12 +1,14 @@
  %% Clean workspace and load data
- clear 
+close all
+clear variables
+clc
 
 %% load the dataset file
 InitialFolder='/Users/bong-iquan/MATLAB/sst1.1_mutant/Slow_swim';
  
 % Figure out how many trials to analyse
 cd(InitialFolder)
-list=dir('*_workspace_SST_20190220_new2*');
+list=dir('*_workspace_*');
 %list2=list([list.isdir]==0);%list all folders but no file (make sure I have only folders) 1==folder; 0==file;
 NFolder=size(list,1);
 
@@ -25,13 +27,15 @@ DisB_AllTrials_post=[];
 Speed_AllTrials_pre=[];
 Speed_AllTrials_post=[];
 
+TBF_AllTrials_pre=[];
+TBF_AllTrials_post=[];
+
 IBI_AllTrials_pre=[];
 IBI_AllTrials_post=[];
 
 nBout_AllTrials_pre=[];
 nBout_AllTrials_post=[];
 
-%TBF_AllTrials=[];
 
 
 for ii=1:NFolder
@@ -204,7 +208,7 @@ IBI_AllTrials_post{1,1+Compt_NTrial}=IBI_post;
 nBout_AllTrials_pre{1,1+Compt_NTrial}=nBout_pre;
 nBout_AllTrials_post{1,1+Compt_NTrial}=nBout_post;
 
-TBF_AllTrials_pre{1,1+Compt_NTrial}=TBF_pre;
+TBF_AllTrials_pre{1,1+Compt_NTrial}=TBF_pre; 
 TBF_AllTrials_post{1,1+Compt_NTrial}=TBF_post;
 
 Compt_NTrial=Compt_NTrial+1;
@@ -332,8 +336,9 @@ for l=1:length(Fish_G1)
 %    % Calculate single IBI
 %     G1Single_IBI_pre{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G1(l))}(end)));
 %     G1Single_IBI_post{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G1(l))}(1)));
-%     
-%     % Calculate mean nBout
+    
+
+    % Calculate mean nBout
     G1mean_nBout_pre{ii}(l)=nBout_AllTrials_pre{ii}{(Fish_G1(l))};
     G1mean_nBout_post{ii}(l)=nBout_AllTrials_post{ii}{(Fish_G1(l))};
 
@@ -600,8 +605,8 @@ ylabel('Mean nBoutPerMin');
 title(['Mean nBoutPerMin']);hold off;
 legend('-/-','+/+');
 
-saveas(h5,['Mean nBoutPerMin.fig'])
-saveas(h5,['Mean nBoutPerMin.png'])  
+% saveas(h5,['Mean nBoutPerMin.fig'])
+% saveas(h5,['Mean nBoutPerMin.png'])  
 
 %% IBI per 10s
 
@@ -753,6 +758,6 @@ ylabel('Mean IBI/10s');hold on;
 %grid();
 title(['Mean IBI/10s']);hold off;
 
-saveas(h6,['IBIs per 10s.fig'])
-saveas(h6,['IBIs per 10s.png'])
+% saveas(h6,['IBIs per 10s.fig'])
+% saveas(h6,['IBIs per 10s.png'])
 
