@@ -8,7 +8,7 @@ InitialFolder='/Users/bong-iquan/MATLAB/sst1.1_mutant/Slow_swim';
  
 % Figure out how many trials to analyse
 cd(InitialFolder)
-list=dir('*_workspace_*');
+list=dir('*_workspace_SST_');
 %list2=list([list.isdir]==0);%list all folders but no file (make sure I have only folders) 1==folder; 0==file;
 NFolder=size(list,1);
 
@@ -38,6 +38,7 @@ nBout_AllTrials_post=[];
 
 
 
+
 for ii=1:NFolder
     
     % Selection manually!
@@ -50,13 +51,11 @@ for ii=1:NFolder
     
     load(strcat(pathName,fileName));
     
-output = struct('Fish', [], 'NumberFish',[], 'Genotypes', [], 'geno_index', [], 'G0', [], 'G1', [], ...
-    'G2', [], 'Small', [], 'EscapeWindow', [], 'IBI_pre', [], 'IBI_post', [], 'IBI', [], 'Well_ID', [], ...
-    'Speed', [], 'index', [], 'allindex', [], 'TailAngle', [], 'Distance', [], 'TBF', [], 'TimeBout_pre', [], ...
-    'TimeBout_post', [], 'NumberOfOscillations',[], 'Bend_Amplitude', [], 'Bend_Timing',[],'results',[],...
-    'BoutDuration_pre',[], 'BoutDuration_post',[], 'NumberOfOscillations_pre',[], 'NumberOfOscillations_post',[], ...
-     'BoutDistance_pre',[],'BoutDistance_post',[],'Speed_pre',[],'Speed_post',[],'nBout_pre', [], 'nBout_post',[],...
-     'FishGeno',[],'Fish_G2',[], 'Fish_G1',[],'Fish_G0',[]);
+output = struct( 'NTrial', [], 'Fish_ID', [], 'FishGeno',[], ...
+        'mIBI_pre', [], 'mBoutDuration_pre',[],'mNumberOfOscillations_pre',[],'mBoutDistance_pre',[],'mSpeed_pre',[],'mnBout_pre', [], 'mTBF_pre',[],...
+    'mIBI_post', [], 'mBoutDuration_post',[],'mNumberOfOscillations_post',[],'mBoutDistance_post',[],'mSpeed_post',[], 'mnBout_post',[], 'mTBF_post',[]);
+%     'IBI_pre', [], 'TimeBout_pre', [],'BoutDuration_pre',[],'NumberOfOscillations_pre',[],'BoutDistance_pre',[],'Speed_pre',[],'nBout_pre', [], 'TBF_pre',[],...
+%     'IBI_post', [], 'TimeBout_post', [],'BoutDuration_post',[],'NumberOfOscillations_post',[],'BoutDistance_post',[],'Speed_post',[], 'nBout_post',[], 'TBF_post',[]);
 
 close all;
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -72,10 +71,51 @@ EscapeWindow = [unique([datasetPerBout(:).EscapeWindow1]) unique([datasetPerBout
 
 %------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 % calculate for each fish parameters extracted from the structure
- 
+
+
+
 for i=1:NumberFish;
-    
+
     i
+    
+    
+    %% select good swimers
+
+Fish_temp=Fish;
+% for i=1:NumberFish;
+%     
+%         if isempty([IBI_pre{Fish(i)}]);
+%             disp(['empty cell array IBI pre for fish' num2str(Fish(i))]);
+%            
+%             
+%         elseif mean([IBI_pre{Fish(i)}]) > 3.3 ;   
+%                 disp(['Bad IBI for fish' num2str(Fish(i))]);
+%               
+%                 Fish_temp(i)=NaN;
+%                 index{Fish(i)}=[];
+%                 allindex{Fish(i)}=[];
+%                 
+%             else disp(['all is good with'  num2str(Fish(i))]);
+% 
+%             end;
+%         end;
+% 
+% %return
+% 
+% Fish_temp(isnan(Fish_temp))=[];
+
+%------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+% Define genotype
+
+FishGeno=([datasetPerFish.Genotype]);
+Fish_ID = ([datasetPerFish.Condition]);
+NTrial = ([datasetPerFish.NTrial]);
+
+Fish_G2=Fish_temp(find(FishGeno( find( Fish_temp ) )==2));
+Fish_G1=Fish_temp(find(FishGeno( find( Fish_temp ) )==1));
+Fish_G0=Fish_temp(find(FishGeno( find( Fish_temp ) )==0));
+%------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
     % index for IBI
     
     index{Fish(i)}= find(~([datasetPerBout(:).Condition]-Fish(i)));
@@ -134,7 +174,7 @@ for i=1:NumberFish;
 
     % now calculate parameters for each bout 
     
-    for h=1:length([allindex{Fish(i)}]);
+    for h=1:length(idx{Fish(i)});
         
         display(['currently processing fish ' num2str(i)])
         display(['currently processing bout number ' num2str(h)])
@@ -151,42 +191,32 @@ for i=1:NumberFish;
           
         
     end;
+    
+    output(i).NTrial=NTrial(i); 
+    output(i).Fish_ID=Fish_ID(i);
+    output(i).FishGeno=FishGeno(i); 
+    
+    output(i).mIBI_pre=mean(IBI_pre{Fish(i)},'omitnan');
+    output(i).mBoutDuration_pre=mean(BoutDuration_pre{Fish(i)},'omitnan');
+    output(i).mNumberOfOscillations_pre=mean(NumberOfOscillations_pre{Fish(i)},'omitnan');
+    output(i).mSpeed_pre=mean(Speed_pre{Fish(i)},'omitnan');
+    output(i).mBoutDistance_pre=mean(BoutDistance_pre{Fish(i)},'omitnan');
+    output(i).mnBout_pre=mean(nBout_pre{Fish(i)},'omitnan');
+    output(i).mTBF_pre=mean(TBF_pre{Fish(i)},'omitnan');
+    
+    output(i).mIBI_post=mean(IBI_post{Fish(i)},'omitnan');
+    output(i).mBoutDuration_post=mean(BoutDuration_post{Fish(i)},'omitnan');
+    output(i).mNumberOfOscillations_post=mean(NumberOfOscillations_post{Fish(i)},'omitnan');
+    output(i).mSpeed_post=mean(Speed_post{Fish(i)},'omitnan');
+    output(i).mBoutDistance_post=mean(BoutDistance_post{Fish(i)},'omitnan');
+    output(i).mnBout_post=mean(nBout_post{Fish(i)},'omitnan');
+    output(i).mTBF_post=mean(TBF_post{Fish(i)},'omitnan');
+    
+    i= i+1;
+
 end;
 
 
-%% select good swimers
-
-Fish_temp=Fish;
-% for i=1:NumberFish;
-%     
-%         if isempty([IBI_pre{Fish(i)}]);
-%             disp(['empty cell array IBI pre for fish' num2str(Fish(i))]);
-%            
-%             
-%         elseif mean([IBI_pre{Fish(i)}]) > 3.3 ;   
-%                 disp(['Bad IBI for fish' num2str(Fish(i))]);
-%               
-%                 Fish_temp(i)=NaN;
-%                 index{Fish(i)}=[];
-%                 allindex{Fish(i)}=[];
-%                 
-%             else disp(['all is good with'  num2str(Fish(i))]);
-% 
-%             end;
-%         end;
-% 
-% %return
-% 
-% Fish_temp(isnan(Fish_temp))=[];
-
-%------------------------------------------------------------------------------------------------------------------------------------------------------------------%
-% Define genotype
-
-FishGeno=([datasetPerFish.Genotype]);
-
-Fish_G2=Fish_temp(find(FishGeno( find( Fish_temp ) )==2));
-Fish_G1=Fish_temp(find(FishGeno( find( Fish_temp ) )==1));
-Fish_G0=Fish_temp(find(FishGeno( find( Fish_temp ) )==0));
 
 %% Collecte data from all Trials
 
@@ -211,10 +241,11 @@ nBout_AllTrials_post{1,1+Compt_NTrial}=nBout_post;
 TBF_AllTrials_pre{1,1+Compt_NTrial}=TBF_pre; 
 TBF_AllTrials_post{1,1+Compt_NTrial}=TBF_post;
 
+
+
 Compt_NTrial=Compt_NTrial+1;
  
 %% output data
-
 % output.Fish=Fish;
 % output.EscapeWindow=EscapeWindow;
 % output.NumberFish=NumberFish;
@@ -387,6 +418,7 @@ for l=1:length(Fish_G0)
 end;
 
 
+ii= ii+1;
 
 
 end;
