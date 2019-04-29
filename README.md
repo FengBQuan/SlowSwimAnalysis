@@ -8,7 +8,7 @@ BoutDuration
 Number of oscillations
 BoutDistance
 BoutSpeed
-TBF
+TBF: ERROR in TBF calculation
 
 2. Calculate Distance and Duration overtime 
   
