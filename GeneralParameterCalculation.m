@@ -7,7 +7,7 @@ InitialFolder='/Users/bong-iquan/MATLAB/sst1.1_mutant/Slow_swim';
  
 % Figure out how many trials to analyse
 cd(InitialFolder)
-list=dir('*_workspace_SST_CTL_*');
+list=dir('*_workspace_SST_*');
 %list2=list([list.isdir]==0);%list all folders but no file (make sure I have only folders) 1==folder; 0==file;
 NFolder=size(list,1);
 
@@ -382,7 +382,7 @@ title('Bout Duration (sec)');
 
 %Plot WT
 G2groupe_pre= ones(1,numel(cell2mat(G2meanBoutDuration_pre)));
-G2groupe_post= ones(1,numel(cell2mat(G2meanBoutDuration_post)))*5;%datasetPerFish(Fish_G2(l)).Genotype
+G2groupe_post= ones(1,numel(cell2mat(G2meanBoutDuration_post)))*4;%datasetPerFish(Fish_G2(l)).Genotype
 
 [median_G2BDpre,SEM_G2BDpre]=grpstats(cell2mat(G2meanBoutDuration_pre),G2groupe_pre,{'median','sem'});
 [median_G2BDpost,SEM_G2BDpost]=grpstats(cell2mat(G2meanBoutDuration_post),G2groupe_post,{'median','sem'});
@@ -391,11 +391,11 @@ sz=20;
 scatter(G2groupe_pre, cell2mat(G2meanBoutDuration_pre),sz,'b','filled');title('Bout Duration (sec)'); hold on;
 scatter(G2groupe_post, cell2mat(G2meanBoutDuration_post),sz,'b','filled');title('Bout Duration (sec)');  
 jitter1;
-xlim([0.5 8]);
+xlim([0.5 5.5]);
 %ylim([0.05 0.25]);
 hold on;
 errorbar(1, median_G2BDpre, SEM_G2BDpre,'k');hold on;
-errorbar(5, median_G2BDpost, SEM_G2BDpost,'k');hold on;
+errorbar(4, median_G2BDpost, SEM_G2BDpost,'k');hold on;
 
 
 %Plot Het
@@ -415,23 +415,23 @@ errorbar(5, median_G2BDpost, SEM_G2BDpost,'k');hold on;
 % errorbar(6, median_G1BDpost, SEM_G1BDpost,'k');hold on;
 % 
 % 
-% %Plot Homo
-% G0groupe_pre= ones(1,numel(cell2mat(G0meanBoutDuration_pre)))*3;
-% G0groupe_post= ones(1,numel(cell2mat(G0meanBoutDuration_post)))*7;
+%Plot Homo
+G0groupe_pre= ones(1,numel(cell2mat(G0meanBoutDuration_pre)))*2;
+G0groupe_post= ones(1,numel(cell2mat(G0meanBoutDuration_post)))*5;
+
+[median_G0BDpre,SEM_G0BDpre]=grpstats(cell2mat(G0meanBoutDuration_pre),G0groupe_pre,{'median','sem'});
+[median_G0BDpost,SEM_G0BDpost]=grpstats(cell2mat(G0meanBoutDuration_post),G0groupe_post,{'median','sem'});
+sz=20;
+scatter(G0groupe_pre, cell2mat(G0meanBoutDuration_pre),sz,'r','filled');hold on;
+scatter(G0groupe_post, cell2mat(G0meanBoutDuration_post),sz,'r','filled');
+jitter1;
+xlim([0.5 5.5]);
+%ylim([0.05 0.25]);
+hold on;
+errorbar(2, median_G0BDpre, SEM_G0BDpre,'k');hold on;
+errorbar(5, median_G0BDpost, SEM_G0BDpost,'k');hold off;
 % 
-% [median_G0BDpre,SEM_G0BDpre]=grpstats(cell2mat(G0meanBoutDuration_pre),G0groupe_pre,{'median','sem'});
-% [median_G0BDpost,SEM_G0BDpost]=grpstats(cell2mat(G0meanBoutDuration_post),G0groupe_post,{'median','sem'});
-% sz=20;
-% scatter(G0groupe_pre, cell2mat(G0meanBoutDuration_pre),sz,'r','filled');hold on;
-% scatter(G0groupe_post, cell2mat(G0meanBoutDuration_post),sz,'r','filled');
-% jitter1;
-% xlim([0.5 8]);
-% %ylim([0.05 0.25]);
-% hold on;
-% errorbar(3, median_G0BDpre, SEM_G0BDpre,'k');hold on;
-% errorbar(7, median_G0BDpost, SEM_G0BDpost,'k');hold off;
-% 
-saveas(h1,['Bout Duration.fig'])
+% saveas(h1,['Bout Duration.fig'])
 % saveas(h1,['Bout Duration.png']) 
 %% Plot Number of Oscillation
 
@@ -440,7 +440,7 @@ title('Number Of Oscillations');
 
 %Plot WT
 G2groupe_pre= ones(1,numel(cell2mat(G2meanNumOfOsc_pre)));
-G2groupe_post= ones(1,numel(cell2mat(G2meanNumOfOsc_post)))*5;
+G2groupe_post= ones(1,numel(cell2mat(G2meanNumOfOsc_post)))*4;
 
 [median_G2NumOfOsc_pre,SEM_G2NumOfOsc_pre]=grpstats(cell2mat(G2meanNumOfOsc_pre),G2groupe_pre,{'median','sem'});
 [median_G2NumOfOsc_post,SEM_G2NumOfOsc_post]=grpstats(cell2mat(G2meanNumOfOsc_post),G2groupe_post,{'median','sem'});
@@ -448,10 +448,10 @@ sz=20;
 scatter(G2groupe_pre, cell2mat(G2meanNumOfOsc_pre),sz,'b','filled');title('Number Of Oscillations');   hold on;
 scatter(G2groupe_post, cell2mat(G2meanNumOfOsc_post),sz,'b','filled');title('Number Of Oscillations');   
 jitter1;
-xlim([0.5 8]);
+xlim([0.5 6]);
 hold on;
 errorbar(1, median_G2NumOfOsc_pre, SEM_G2NumOfOsc_pre,'k');hold on;
-errorbar(5, median_G2NumOfOsc_post, SEM_G2NumOfOsc_pre,'k');hold on;
+errorbar(4, median_G2NumOfOsc_post, SEM_G2NumOfOsc_pre,'k');hold on;
 
 % %Plot Het
 % G1groupe_pre= ones(1,numel(cell2mat(G1meanNumOfOsc_pre)))*2;
@@ -469,22 +469,22 @@ errorbar(5, median_G2NumOfOsc_post, SEM_G2NumOfOsc_pre,'k');hold on;
 % errorbar(6, median_G1NumOfOsc_post, SEM_G1NumOfOsc_pre,'k');hold on;
 % 
 % 
-% %Plot Homo
-% G0groupe_pre= ones(1,numel(cell2mat(G0meanNumOfOsc_pre)))*3;
-% G0groupe_post= ones(1,numel(cell2mat(G0meanNumOfOsc_post)))*7;
-%  
-% [median_G0NumOfOsc_pre,SEM_G0NumOfOsc_pre]=grpstats(cell2mat(G0meanNumOfOsc_pre),G0groupe_pre,{'median','sem'});
-% [median_G0NumOfOsc_post,SEM_G0NumOfOsc_post]=grpstats(cell2mat(G0meanNumOfOsc_post),G0groupe_post,{'median','sem'});
-% sz=20;
-% scatter(G0groupe_pre, cell2mat(G0meanNumOfOsc_pre),sz,'r','filled');title('Number Of Oscillations');   hold on;
-% scatter(G0groupe_post, cell2mat(G0meanNumOfOsc_post),sz,'r','filled');title('Number Of Oscillations');   
-% jitter1;
-% xlim([0.5 8]);
-% hold on;
-% errorbar(3, median_G0NumOfOsc_pre, SEM_G0NumOfOsc_pre,'k');hold on;
-% errorbar(7, median_G0NumOfOsc_post, SEM_G0NumOfOsc_pre,'k');hold on;
+%Plot Homo
+G0groupe_pre= ones(1,numel(cell2mat(G0meanNumOfOsc_pre)))*2;
+G0groupe_post= ones(1,numel(cell2mat(G0meanNumOfOsc_post)))*5;
+ 
+[median_G0NumOfOsc_pre,SEM_G0NumOfOsc_pre]=grpstats(cell2mat(G0meanNumOfOsc_pre),G0groupe_pre,{'median','sem'});
+[median_G0NumOfOsc_post,SEM_G0NumOfOsc_post]=grpstats(cell2mat(G0meanNumOfOsc_post),G0groupe_post,{'median','sem'});
+sz=20;
+scatter(G0groupe_pre, cell2mat(G0meanNumOfOsc_pre),sz,'r','filled');title('Number Of Oscillations');   hold on;
+scatter(G0groupe_post, cell2mat(G0meanNumOfOsc_post),sz,'r','filled');title('Number Of Oscillations');   
+jitter1;
+xlim([0.5 6]);
+hold on;
+errorbar(2, median_G0NumOfOsc_pre, SEM_G0NumOfOsc_pre,'k');hold on;
+errorbar(5, median_G0NumOfOsc_post, SEM_G0NumOfOsc_pre,'k');hold on;
 
-saveas(h2,['Number of Oscillations.fig'])
+%saveas(h2,['Number of Oscillations.fig'])
 % saveas(h2,['Number of Oscillations.png'])  
 
 %% Bout Distance
@@ -544,7 +544,7 @@ errorbar(5, median_G2BoutDistance_post, SEM_G2BoutDistance_post,'k');hold on;
 % errorbar(7, median_G0BoutDistance_post, SEM_G0BoutDistance_post,'k');hold off;
 
 
-saveas(h3,['BoutDistance.fig'])
+%saveas(h3,['BoutDistance.fig'])
 % saveas(h3,['BoutDistance.png'])  
 
 %% Speed 
