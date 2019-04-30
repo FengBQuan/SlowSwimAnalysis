@@ -8,7 +8,7 @@ InitialFolder='/Users/bong-iquan/MATLAB/sst1.1_mutant/Slow_swim';
  
 % Figure out how many trials to analyse
 cd(InitialFolder)
-list=dir('*_workspace_SST_');
+list=dir('*_workspace_SST_*');
 %list2=list([list.isdir]==0);%list all folders but no file (make sure I have only folders) 1==folder; 0==file;
 NFolder=size(list,1);
 
@@ -288,134 +288,134 @@ Compt_NTrial=Compt_NTrial+1;
 
 %return
 %% mean Calculation
-
-%WT
+G2medianBoutDuration_pre{ii}(l)=[];
 for l=1:length(Fish_G2);
     l
    
-    % Calculate meanBoutDuration
-    G2meanBoutDuration_pre{ii}(l)=mean(BD_AllTrials_pre{ii}{(Fish_G2(l))});
-    G2meanBoutDuration_post{ii}(l)=mean(BD_AllTrials_post{ii}{(Fish_G2(l))});
+    % Calculate medianBoutDuration
+    G2medianBoutDuration_pre{ii}(l)=median(BD_AllTrials_pre{ii}{(Fish_G2(l))});
+    G2medianBoutDuration_post{ii}(l)=median(BD_AllTrials_post{ii}{(Fish_G2(l))});
     
    
-    % Calculate meanNumber of Oscillation
-    G2meanNumOfOsc_pre{ii}(l)=mean(Osc_AllTrials_pre{ii}{(Fish_G2(l))});
-    G2meanNumOfOsc_post{ii}(l)=mean(Osc_AllTrials_post{ii}{(Fish_G2(l))});
+    % Calculate medianNumber of Oscillation
+    G2medianNumOfOsc_pre{ii}(l)=median(Osc_AllTrials_pre{ii}{(Fish_G2(l))});
+    G2medianNumOfOsc_post{ii}(l)=median(Osc_AllTrials_post{ii}{(Fish_G2(l))});
     
-    % Calculate meanBoutDistance
+    % Calculate medianBoutDistance
     
-    G2meanBoutDistance_pre{ii}(l)=mean(DisB_AllTrials_pre{ii}{(Fish_G2(l))});
-    G2meanBoutDistance_post{ii}(l)=mean(DisB_AllTrials_post{ii}{(Fish_G2(l))});
+    G2medianBoutDistance_pre{ii}(l)=median(DisB_AllTrials_pre{ii}{(Fish_G2(l))});
+    G2medianBoutDistance_post{ii}(l)=median(DisB_AllTrials_post{ii}{(Fish_G2(l))});
     
-    % Calculate meanSpeed
-    G2meanSpeed_pre{ii}(l)=mean(Speed_AllTrials_pre{ii}{(Fish_G2(l))});
-    G2meanSpeed_post{ii}(l)=mean(Speed_AllTrials_post{ii}{(Fish_G2(l))});
+    % Calculate medianSpeed
+    G2medianSpeed_pre{ii}(l)=median(Speed_AllTrials_pre{ii}{(Fish_G2(l))});
+    G2medianSpeed_post{ii}(l)=median(Speed_AllTrials_post{ii}{(Fish_G2(l))});
     
-    % Calculate mean TBF
+    % Calculate median TBF
     
-    G2meanTBF_pre{ii}(l)=mean(TBF_AllTrials_pre{ii}{(Fish_G2(l))});
-    G2meanTBF_post{ii}(l)=mean(TBF_AllTrials_post{ii}{(Fish_G2(l))});
+    G2medianTBF_pre{ii}(l)=median(TBF_AllTrials_pre{ii}{(Fish_G2(l))});
+    G2medianTBF_post{ii}(l)=median(TBF_AllTrials_post{ii}{(Fish_G2(l))});
     
     
-    % Calculate mean IBI
-    G2meanIBI_pre{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G2(l))}));
-    G2meanIBI_post{ii}(l)=log(mean(IBI_AllTrials_post{ii}{(Fish_G2(l))}));
+    % Calculate median IBI
+    G2medianIBI_pre{ii}(l)=log(median(IBI_AllTrials_pre{ii}{(Fish_G2(l))}));
+    G2medianIBI_post{ii}(l)=log(median(IBI_AllTrials_post{ii}{(Fish_G2(l))}));
     
 %    % Calculate single IBI
-%     G2Single_IBI_pre{ii}(l)= mean(IBI_AllTrials_pre{ii}{(Fish_G2(l))}(end)),'omitnan';
-%     G2Single_IBI_post{ii}(l)=mean(IBI_AllTrials_pre{ii}{(Fish_G2(l))}(1)),'omitnan';
+%     G2Single_IBI_pre{ii}(l)= median(IBI_AllTrials_pre{ii}{(Fish_G2(l))}(end)),'omitnan';
+%     G2Single_IBI_post{ii}(l)=median(IBI_AllTrials_pre{ii}{(Fish_G2(l))}(1)),'omitnan';
      
-    % Calculate mean nBout
-    G2mean_nBout_pre{ii}(l)=nBout_AllTrials_pre{ii}{(Fish_G2(l))};
-    G2mean_nBout_post{ii}(l)=nBout_AllTrials_post{ii}{(Fish_G2(l))};
-
+    % Calculate median nBout
+    G2median_nBout_pre{ii}(l)=nBout_AllTrials_pre{ii}{(Fish_G2(l))};
+    G2median_nBout_post{ii}(l)=nBout_AllTrials_post{ii}{(Fish_G2(l))};
+ 
 end;
-
-
+ 
+ 
 %Heterozygote
 for l=1:length(Fish_G1)
     l
-    % Calculate meanBoutDuration
-    G1meanBoutDuration_pre{ii}(l)=mean(BD_AllTrials_pre{ii}{(Fish_G1(l))});
-    G1meanBoutDuration_post{ii}(l)=mean(BD_AllTrials_post{ii}{(Fish_G1(l))});
+    % Calculate medianBoutDuration
+    G1medianBoutDuration_pre{ii}(l)=median(BD_AllTrials_pre{ii}{(Fish_G1(l))});
+    G1medianBoutDuration_post{ii}(l)=median(BD_AllTrials_post{ii}{(Fish_G1(l))});
     
    
-    % Calculate meanNumber of Oscillation
-    G1meanNumOfOsc_pre{ii}(l)=mean(Osc_AllTrials_pre{ii}{(Fish_G1(l))});
-    G1meanNumOfOsc_post{ii}(l)=mean(Osc_AllTrials_post{ii}{(Fish_G1(l))});
+    % Calculate medianNumber of Oscillation
+    G1medianNumOfOsc_pre{ii}(l)=median(Osc_AllTrials_pre{ii}{(Fish_G1(l))});
+    G1medianNumOfOsc_post{ii}(l)=median(Osc_AllTrials_post{ii}{(Fish_G1(l))});
     
-    % Calculate meanBoutDistance
+    % Calculate medianBoutDistance
     
-    G1meanBoutDistance_pre{ii}(l)=mean(DisB_AllTrials_pre{ii}{(Fish_G1(l))});
-    G1meanBoutDistance_post{ii}(l)=mean(DisB_AllTrials_post{ii}{(Fish_G1(l))});
+    G1medianBoutDistance_pre{ii}(l)=median(DisB_AllTrials_pre{ii}{(Fish_G1(l))});
+    G1medianBoutDistance_post{ii}(l)=median(DisB_AllTrials_post{ii}{(Fish_G1(l))});
     
-    % Calculate meanSpeed
-    G1meanSpeed_pre{ii}(l)=mean(Speed_AllTrials_pre{ii}{(Fish_G1(l))});
-    G1meanSpeed_post{ii}(l)=mean(Speed_AllTrials_post{ii}{(Fish_G1(l))});
-
+    % Calculate medianSpeed
+    G1medianSpeed_pre{ii}(l)=median(Speed_AllTrials_pre{ii}{(Fish_G1(l))});
+    G1medianSpeed_post{ii}(l)=median(Speed_AllTrials_post{ii}{(Fish_G1(l))});
+ 
     
-    % Calculate mean IBI
-    G1meanIBI_pre{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G1(l))}));
-    G1meanIBI_post{ii}(l)=log(mean(IBI_AllTrials_post{ii}{(Fish_G1(l))}));
-
+    % Calculate median IBI
+    G1medianIBI_pre{ii}(l)=log(median(IBI_AllTrials_pre{ii}{(Fish_G1(l))}));
+    G1medianIBI_post{ii}(l)=log(median(IBI_AllTrials_post{ii}{(Fish_G1(l))}));
+ 
     
-    % Calculate mean TBF
-    G1meanTBF_pre{ii}(l)=mean(TBF_AllTrials_pre{ii}{(Fish_G1(l))});
-    G1meanTBF_post{ii}(l)=mean(TBF_AllTrials_post{ii}{(Fish_G1(l))});
+    % Calculate median TBF
+    G1medianTBF_pre{ii}(l)=median(TBF_AllTrials_pre{ii}{(Fish_G1(l))});
+    G1medianTBF_post{ii}(l)=median(TBF_AllTrials_post{ii}{(Fish_G1(l))});
     
-
+ 
 %    % Calculate single IBI
-%     G1Single_IBI_pre{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G1(l))}(end)));
-%     G1Single_IBI_post{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G1(l))}(1)));
+%     G1Single_IBI_pre{ii}(l)=log(median(IBI_AllTrials_pre{ii}{(Fish_G1(l))}(end)));
+%     G1Single_IBI_post{ii}(l)=log(median(IBI_AllTrials_pre{ii}{(Fish_G1(l))}(1)));
     
-
-    % Calculate mean nBout
-    G1mean_nBout_pre{ii}(l)=nBout_AllTrials_pre{ii}{(Fish_G1(l))};
-    G1mean_nBout_post{ii}(l)=nBout_AllTrials_post{ii}{(Fish_G1(l))};
-
+ 
+    % Calculate median nBout
+    G1median_nBout_pre{ii}(l)=nBout_AllTrials_pre{ii}{(Fish_G1(l))};
+    G1median_nBout_post{ii}(l)=nBout_AllTrials_post{ii}{(Fish_G1(l))};
+ 
    
 end;
-
-
+ 
+ 
 %Homozygote
 for l=1:length(Fish_G0)
     l
-    % Calculate meanBoutDuration
-    G0meanBoutDuration_pre{ii}(l)=mean(BD_AllTrials_pre{ii}{(Fish_G0(l))});
-    G0meanBoutDuration_post{ii}(l)=mean(BD_AllTrials_post{ii}{(Fish_G0(l))});
+    % Calculate medianBoutDuration
+    G0medianBoutDuration_pre{ii}(l)=median(BD_AllTrials_pre{ii}{(Fish_G0(l))});
+    G0medianBoutDuration_post{ii}(l)=median(BD_AllTrials_post{ii}{(Fish_G0(l))});
     
    
-    % Calculate meanNumber of Oscillation
-    G0meanNumOfOsc_pre{ii}(l)=mean(Osc_AllTrials_pre{ii}{(Fish_G0(l))});
-    G0meanNumOfOsc_post{ii}(l)=mean(Osc_AllTrials_post{ii}{(Fish_G0(l))});
+    % Calculate medianNumber of Oscillation
+    G0medianNumOfOsc_pre{ii}(l)=median(Osc_AllTrials_pre{ii}{(Fish_G0(l))});
+    G0medianNumOfOsc_post{ii}(l)=median(Osc_AllTrials_post{ii}{(Fish_G0(l))});
     
-    % Calculate meanBoutDistance
+    % Calculate medianBoutDistance
     
-    G0meanBoutDistance_pre{ii}(l)=mean(DisB_AllTrials_pre{ii}{(Fish_G0(l))});
-    G0meanBoutDistance_post{ii}(l)=mean(DisB_AllTrials_post{ii}{(Fish_G0(l))});
+    G0medianBoutDistance_pre{ii}(l)=median(DisB_AllTrials_pre{ii}{(Fish_G0(l))});
+    G0medianBoutDistance_post{ii}(l)=median(DisB_AllTrials_post{ii}{(Fish_G0(l))});
     
-    % Calculate meanSpeed
-    G0meanSpeed_pre{ii}(l)=mean(Speed_AllTrials_pre{ii}{(Fish_G0(l))});
-    G0meanSpeed_post{ii}(l)=mean(Speed_AllTrials_post{ii}{(Fish_G0(l))});
+    % Calculate medianSpeed
+    G0medianSpeed_pre{ii}(l)=median(Speed_AllTrials_pre{ii}{(Fish_G0(l))});
+    G0medianSpeed_post{ii}(l)=median(Speed_AllTrials_post{ii}{(Fish_G0(l))});
     
-    % Calculate mean TBF
-    G0meanTBF_pre{ii}(l)=mean(TBF_AllTrials_pre{ii}{(Fish_G0(l))});
-    G0meanTBF_post{ii}(l)=mean(TBF_AllTrials_post{ii}{(Fish_G0(l))});
+    % Calculate median TBF
+    G0medianTBF_pre{ii}(l)=median(TBF_AllTrials_pre{ii}{(Fish_G0(l))});
+    G0medianTBF_post{ii}(l)=median(TBF_AllTrials_post{ii}{(Fish_G0(l))});
     
     
-    % Calculate mean IBI
-    G0meanIBI_pre{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G0(l))}));
-    G0meanIBI_post{ii}(l)=log(mean(IBI_AllTrials_post{ii}{(Fish_G0(l))}));
+    % Calculate median IBI
+    G0medianIBI_pre{ii}(l)=log(median(IBI_AllTrials_pre{ii}{(Fish_G0(l))}));
+    G0medianIBI_post{ii}(l)=log(median(IBI_AllTrials_post{ii}{(Fish_G0(l))}));
     
 %     % Calculate single IBI
-%    G0Single_IBI_pre{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G0(l))}(end)));
-%     G0Single_IBI_post{ii}(l)=log(mean(IBI_AllTrials_pre{ii}{(Fish_G0(l))}(1)));
+%    G0Single_IBI_pre{ii}(l)=log(median(IBI_AllTrials_pre{ii}{(Fish_G0(l))}(end)));
+%     G0Single_IBI_post{ii}(l)=log(median(IBI_AllTrials_pre{ii}{(Fish_G0(l))}(1)));
      
-%     % Calculate mean nBout
-    G0mean_nBout_pre{ii}(l)=nBout_AllTrials_pre{ii}{(Fish_G0(l))};
-    G0mean_nBout_post{ii}(l)=nBout_AllTrials_post{ii}{(Fish_G0(l))};
-
+%     % Calculate median nBout
+    G0median_nBout_pre{ii}(l)=nBout_AllTrials_pre{ii}{(Fish_G0(l))};
+    G0median_nBout_post{ii}(l)=nBout_AllTrials_post{ii}{(Fish_G0(l))};
+ 
 end;
+
 
 
 ii= ii+1;
@@ -426,370 +426,74 @@ end;
 
 %% PLot BoutDuration
 
-h1=figure(1); % Compare bout durations per conditions (genotypes Homo, Het, Wt)
-title('Bout Duration (sec)');  
-
-plot_WT_scatter(G2meanBoutDuration_pre,G2meanBoutDuration_post);
-hold on;
-plot_Het_scatter(G1meanBoutDuration_pre,G1meanBoutDuration_post);
-hold on;
-plot_Homo_scatter(G0meanBoutDuration_pre,G0meanBoutDuration_post);
-hold off;
-
-% saveas(h1,['Bout Duration.fig'])
-% saveas(h1,['Bout Duration.png']) 
-%% Plot Number of Oscillation
-
-h2=figure(2); % Compare Number of Oscillation per conditions (genotypes Homo, Het, Wt)
-title('Number Of Oscillations'); 
-
-plot_WT_scatter(G2meanNumOfOsc_pre,G2meanNumOfOsc_post);
-hold on;
-plot_Het_scatter(G1meanNumOfOsc_pre,G1meanNumOfOsc_post);
-hold on;
-plot_Homo_scatter(G0meanNumOfOsc_pre,G0meanNumOfOsc_post);
-hold off;
-
-% saveas(h2,['Number of Oscillations.fig'])
-% saveas(h2,['Number of Oscillations.png'])  
-%% Bout Distance
-
-h3=figure(3); % Compare Bout Distance per conditions (genotypes Homo, Het, Wt)
-title('Bout Distance (mm)');  
-
-plot_WT_scatter(G2meanBoutDistance_pre,G2meanBoutDistance_post);
-hold on;
-plot_Het_scatter(G1meanBoutDistance_pre,G1meanBoutDistance_post);
-hold on;
-plot_Homo_scatter(G0meanBoutDistance_pre,G0meanBoutDistance_post);
-hold off;
-
-%saveas(h3,['BoutDistance.fig'])
-% saveas(h3,['BoutDistance.png'])  
-
-%% Speed 
-
-h4=figure(4); % Compare Speed per conditions (genotypes Homo, Het, Wt)
-title('Speed (mm/s)');
-
-plot_WT_scatter(G2meanSpeed_pre,G2meanSpeed_post);
-hold on;
-plot_Het_scatter(G1meanSpeed_pre,G1meanSpeed_post);
-hold on;
-plot_Homo_scatter(G0meanSpeed_pre,G0meanSpeed_post);
-hold off;
-
-% saveas(h4,['Speed.fig'])
-% saveas(h4,['Speed.png'])  
-
-%% TBF 
- 
-h5=figure(5); % Compare TBF per conditions (genotypes Homo, Het, Wt)
-title('TBF'); 
-
-
-plot_WT_scatter(G2meanTBF_pre,G2meanTBF_post);
-hold on;
-plot_Het_scatter(G1meanTBF_pre,G1meanTBF_post);
-hold on;
-plot_Homo_scatter(G0meanTBF_pre,G0meanTBF_post);
-hold off;
- 
-%saveas(h5,['TBF.fig'])
-%saveas(h5,['TBF.png'])
-
-%% PLot IBI
- 
-h6=figure(6); % Compare bout durations per conditions (genotypes Homo, Het, Wt)
-title('IBI (sec)');    
-
-plot_WT_scatter(G2meanIBI_pre,G2meanIBI_post);
-hold on;
-plot_Het_scatter(G1meanIBI_pre,G1meanIBI_post);
-hold on;
-plot_Homo_scatter(G0meanIBI_pre,G0meanIBI_post);
-hold off;
-
-% saveas(h6,['IBI.fig'])
-% saveas(h6,['IBI.png'])
-
-%% nBout
-
-h7=figure(7); % Compare _nBout per conditions (genotypes Homo, Het, Wt)
-title('nBout'); 
-
-plot_WT_scatter(G2mean_nBout_pre,G2mean_nBout_post);
-hold on;
-plot_Het_scatter(G1mean_nBout_pre,G1mean_nBout_post);
-hold on;
-plot_Homo_scatter(G0mean_nBout_pre,G0mean_nBout_post);
-hold off;
- 
-% saveas(h7,['nBout.fig'])
-% saveas(h7,['nBout.png'])  
-
-%% Single IBI plot
-% h4=figure(4); %Plot single IBI before (X) and after (Y) escape
+% h1=figure(1); % Compare bout durations per conditions (genotypes Homo, Het, Wt)
+% title('Bout Duration (sec)');  
+% 
+% plot_WT_scatter(G2medianBoutDuration_pre,G2medianBoutDuration_post);hold on;
+% plot_Het_scatter(G1medianBoutDuration_pre,G1medianBoutDuration_post);hold on;
+% plot_Homo_scatter(G0medianBoutDuration_pre,G0medianBoutDuration_post);hold off;
+% % saveas(h1,['Bout Duration.fig'])
+% % saveas(h1,['Bout Duration.png']) 
+% %% Plot Number of Oscillation
 %  
-% title('single IBI before (X) and after (Y) escape');    
-% 
-%   for i=1:NumberFish; 
-%         
-%         if isempty([IBI_post{Fish(i)}]) | isempty([IBI_pre{Fish(i)}])
-%         disp(['empty cell array IBI pre or post for fish' num2str(i)])
-%         else 
-%         plot(test,test,'k-'); title('single IBI before (X) and after (Y) escape');
-%             if [datasetPerBout([index{Fish(i)}]).Genotype]==0;
-%                 plot(mean([IBI_pre{Fish(i)}(end)]), mean([IBI_post{Fish(i)}(1)]),'ko-'); hold on;
-%             else if [datasetPerBout([index{Fish(i)}]).Genotype]==1;
-%                     plot(mean([IBI_pre{Fish(i)}(end)]), mean([IBI_post{Fish(i)}(1)]),'go-'); hold on;
-%                 else if [datasetPerBout([index{Fish(i)}]).Genotype]==2;
-%                         plot(mean([IBI_pre{Fish(i)}(end)]), mean([IBI_post{Fish(i)}(1)]),'ro-'); hold on;
-%                     end;
-%                 end;
-%             end;
-%         end;
-%     end;
-%     
-%   saveas(h4,['single IBI before (X) and after (Y) escape.fig'])
-%   saveas(h4,['single IBI before (X) and after (Y) escape.png']) 
-
-%% nBout per min
-
-h5=figure(5);
-title ('mean nBout over section time');
-       
-            nFrames=60634;
-            fps=100;
-            TimeWindow= 60; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
-% G2
-
-G2nBoutPerMin=[];
-G2MeanPerMin=[];
-for l=1:length(Fish_G2)
-    %fprintf("-- Fish %d --\n",l);
-    
-    for z= 1:Period;
-        %fprintf(" %d min %d\n",z);
-        
-        %find bout position in the time window
-        G2nBoutPerMin{z}{l}= length(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] < (fps*TimeWindow).*z) ));
-        
-        G2MeanPerMin(z)= mean( cell2mat(G2nBoutPerMin{z}));
-        G2_SEM(z)=std(cell2mat(G2nBoutPerMin{z}))/sqrt(length(Fish_G2));
-    end;
-end;
-
-plot(1:Period, G2MeanPerMin,'bo-');hold on;
-errorbar(1:Period, G2MeanPerMin, G2_SEM,'b'); hold on;
-xlabel("min");
-ylabel('Mean nBoutPerMin');hold on;
-%grid();
-title(['Mean nBoutPerMin']);hold on;
-
-% % G1
-% G1nBoutPerMin=[];
-% G1MeanPerMin=[];
-% for l=1:length(Fish_G1)
-%     %fprintf("-- Fish %d --\n",l);
-%     
-%     for z= 1:Period;
-%         %fprintf(" %d min %d\n",z);
-%         
-%         %find bout position in the time window
-%         G1nBoutPerMin{z}{l}= length(find( ([datasetPerBout( allindex{Fish_G1(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G1(l)} ).BoutStart] < (fps*TimeWindow).*z) ));
-%         
-%         G1MeanPerMin(z)= mean( cell2mat(G1nBoutPerMin{z}));
-%         G1_SEM(z)=std(cell2mat(G1nBoutPerMin{z}))/sqrt(length(Fish_G1));
-%     end;
-% end;
-% 
-% plot(1:Period, G1MeanPerMin,'go-');hold on;
-% errorbar(1:Period, G1MeanPerMin, G1_SEM,'g'); hold on;
-% xlabel("min");
-% ylabel('Mean nBoutPerMin');hold on;
-% %grid();
-% title(['Mean nBoutPerMin']);hold on;
-
-%G0
-G0nBoutPerMin=[];
-G0MeanPerMin=[];
-for l=1:length(Fish_G0)
-    %fprintf("-- Fish %d --\n",l);
-    
-    for z= 1:Period;
-        %fprintf(" %d min %d\n",z);
-        
-        %find bout position in the time window
-        G0nBoutPerMin{z}{l}= length(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] < (fps*TimeWindow).*z) ));
-        
-        G0MeanPerMin(z)= mean( cell2mat(G0nBoutPerMin{z}));
-        G0_SEM(z)=std(cell2mat(G0nBoutPerMin{z}))/sqrt(length(Fish_G0));
-    end;
-end;
-
-plot(1:Period, G0MeanPerMin,'ro-');
-errorbar(1:Period, G0MeanPerMin, G0_SEM,'r'); hold on;
-xlabel("min");
-ylabel('Mean nBoutPerMin');
-%grid();
-title(['Mean nBoutPerMin']);hold off;
-legend('-/-','+/+');
-
-% saveas(h5,['Mean nBoutPerMin.fig'])
-% saveas(h5,['Mean nBoutPerMin.png'])  
-
-%% IBI per 10s
-
-h6=figure(6);
-title ('mean nBout over section time');
-       
-            nFrames=60634;
-            fps= unique([datasetPerBout(:).fps]);
-            TimeWindow= 60; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
-% G2
-
-G2IBI_time=[];
-G2meanIBI_time=[];
-G2meanFishIBI_time=[];
-for z= 1:Period-1;
-    z %fprintf(" %d min %d\n",z);
-    for l=1:length(Fish_G2)
-        %fprintf("-- Fish %d --\n",l);
-        l
-       %while [datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1) & [datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z;
-        if z==1;
-            idx_TimeWindow= index{Fish_G2(l)}(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G2IBI_time{z}{l} = [datasetPerBout(idx_TimeWindow).InstantaneousIBI];
-        else
-            
-         try
-            idx_TimeWindow= allindex{Fish_G2(l)}(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G2IBI_time{z}{l} = [datasetPerBout(idx_TimeWindow).InstantaneousIBI];
-       
-            
-         catch
-            numel(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
-            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
-            G2IBI_time{z}{l}=10;
-         end;
-          
-        end;
- 
-       %end;
-        if isempty(G2IBI_time{z}{l});
-            G2IBI_time{z}{l}=10;
-        end;
-       
-         G2meanIBI_time{z}{l}= mean(G2IBI_time{1,z}{1,l},'omitnan');
-         G2meanFishIBI_time(z)= mean(cell2mat(G2meanIBI_time{1,z}),'omitnan');
-         G2_SEM(z)=std(cell2mat(G2meanIBI_time{1,z}))/sqrt(length(Fish_G2));
-    end;
-    
-end;
-
-%plot
-plot(1:(Period-1), G2meanFishIBI_time,'bo-');hold on;
-%errorbar(1:(Period-1), G2meanFishIBI_time, G2_SEM,'b'); hold on;
-xlabel("sec");
-ylabel('Mean IBI/10s');hold on;
-%grid();
-title(['Mean IBI/10s']);
+% h2=figure(2); % Compare Number of Oscillation per conditions (genotypes Homo, Het, Wt)
+% title('Number Of Oscillations'); 
+%  
+% plot_WT_scatter(G2medianNumOfOsc_pre,G2medianNumOfOsc_post);hold on;
+% plot_Het_scatter(G1medianNumOfOsc_pre,G1medianNumOfOsc_post);hold on;
+% plot_Homo_scatter(G0medianNumOfOsc_pre,G0medianNumOfOsc_post);hold off;
+% % saveas(h2,['Number of Oscillations.fig'])
+% % saveas(h2,['Number of Oscillations.png'])  
+% %% Bout Distance
+%  
+% h3=figure(3); % Compare Bout Distance per conditions (genotypes Homo, Het, Wt)
+% title('Bout Distance (mm)');  
+%  
+% plot_WT_scatter(G2medianBoutDistance_pre,G2medianBoutDistance_post);hold on;
+% plot_Het_scatter(G1medianBoutDistance_pre,G1medianBoutDistance_post);
+% plot_Homo_scatter(G0medianBoutDistance_pre,G0medianBoutDistance_post);hold off;
+% %saveas(h3,['BoutDistance.fig'])
+% % saveas(h3,['BoutDistance.png'])  
+% %% Speed 
+%  
+% h4=figure(4); % Compare Speed per conditions (genotypes Homo, Het, Wt)
+% title('Speed (mm/s)');
+%  
+% plot_WT_scatter(G2medianSpeed_pre,G2medianSpeed_post);hold on;
+% plot_Het_scatter(G1medianSpeed_pre,G1medianSpeed_post);hold on;
+% plot_Homo_scatter(G0medianSpeed_pre,G0medianSpeed_post);hold off;
+% % saveas(h4,['Speed.fig'])
+% % saveas(h4,['Speed.png'])  
+% %% TBF 
+%  
+% h5=figure(5); % Compare TBF per conditions (genotypes Homo, Het, Wt)
+% title('TBF'); 
+% plot_WT_scatter(G2medianTBF_pre,G2medianTBF_post);hold on;
+% plot_Het_scatter(G1medianTBF_pre,G1medianTBF_post);hold on;
+% plot_Homo_scatter(G0medianTBF_pre,G0medianTBF_post);hold off; 
+% %saveas(h5,['TBF.fig'])
+% %saveas(h5,['TBF.png'])
+% %% PLot IBI
+%  
+% h6=figure(6); % Compare bout durations per conditions (genotypes Homo, Het, Wt)
+% title('IBI (sec)');    
+%  
+% plot_WT_scatter(G2medianIBI_pre,G2medianIBI_post);hold on;
+% plot_Het_scatter(G1medianIBI_pre,G1medianIBI_post);hold on;
+% plot_Homo_scatter(G0medianIBI_pre,G0medianIBI_post);hold off;
+% % saveas(h6,['IBI.fig'])
+% % saveas(h6,['IBI.png'])
+% %% nBout
+%  
+% h7=figure(7); % Compare _nBout per conditions (genotypes Homo, Het, Wt)
+% title('nBout'); 
+%  
+% plot_WT_scatter(G2median_nBout_pre,G2median_nBout_post);hold on;
+% plot_Het_scatter(G1median_nBout_pre,G1median_nBout_post);hold on;
+% plot_Homo_scatter(G0median_nBout_pre,G0median_nBout_post);hold off; 
+% % saveas(h7,['nBout.fig'])
+% % saveas(h7,['nBout.png'])  
 
 
-%G1
-G1IBI_time=[];
-G1meanIBI_time=[];
-G1meanFishIBI_time=[];
-for z= 1:Period-1;
-    z %fprintf(" %d min %d\n",z);
-    for l=1:length(Fish_G1)
-        %fprintf("-- Fish %d --\n",l);
-        l
-       
-        if z==1;
-            idx_TimeWindow= index{Fish_G1(l)}(find( ([datasetPerBout( allindex{Fish_G1(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G1(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G1IBI_time{z}{l} = [datasetPerBout(idx_TimeWindow).InstantaneousIBI];
-        else
-            
-         try
-            idx_TimeWindow= allindex{Fish_G1(l)}(find( ([datasetPerBout( allindex{Fish_G1(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G1(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G1IBI_time{z}{l} = [datasetPerBout(idx_TimeWindow).InstantaneousIBI];
-            
-         catch
-            numel(find( ([datasetPerBout( allindex{Fish_G1(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G1(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
-            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
-            G1IBI_time{z}{l}=10;
-         end;
-          
-        end;
- 
-     
-        if isempty(G1IBI_time{z}{l});
-            G1IBI_time{z}{l}=10;
-        end;
-        
-        G1meanIBI_time{z}{l}= mean(G1IBI_time{1,z}{1,l},'omitnan');
-        G1meanFishIBI_time(z)= mean(cell2mat(G1meanIBI_time{1,z}),'omitnan');
-        G1_SEM(z)=std(cell2mat(G1meanIBI_time{1,z}))/sqrt(length(Fish_G1));
-    end;
-end;
 
-plot(1:(Period-1), G1meanFishIBI_time,'go-');hold on;
-%errorbar(1:(Period-1), G1meanFishIBI_time, G1_SEM,'g'); hold on;
-xlabel("sec");
-ylabel('Mean IBI/10s');hold on;
-%grid();
-title(['Mean IBI/10s']);
-
-%G0
-G0IBI_time=[];
-G0meanIBI_time=[];
-G0meanFishIBI_time=[];
-for z= 1:Period-1;
-    z %fprintf(" %d min %d\n",z);
-    for l=1:length(Fish_G0)
-        %fprintf("-- Fish %d --\n",l);
-        l
-       
-        if z==1;
-            idx_TimeWindow= index{Fish_G0(l)}(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G0IBI_time{z}{l} = [datasetPerBout(idx_TimeWindow).InstantaneousIBI];
-        else
-            
-         try
-            idx_TimeWindow= allindex{Fish_G0(l)}(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G0IBI_time{z}{l} = [datasetPerBout(idx_TimeWindow).InstantaneousIBI];
-            
-         catch
-            numel(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
-            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
-            G0IBI_time{z}{l}=10;
-         end;
-          
-        end;
- 
-      
-        if isempty(G0IBI_time{z}{l});
-            G0IBI_time{z}{l}=10;
-        end;
-        
-       G0meanIBI_time{z}{l}= mean(G0IBI_time{1,z}{1,l},'omitnan');
-       G0meanFishIBI_time(z)= mean(cell2mat(G0meanIBI_time{1,z}),'omitnan');
-       G0_SEM(z)=std(cell2mat(G0meanIBI_time{1,z}))/sqrt(length(Fish_G0));
-    end;
-end;
- 
-
-plot(1:(Period-1), G0meanFishIBI_time,'ro-');hold on;
-%errorbar(1:(Period-1), G0meanFishIBI_time, G0_SEM,'r'); hold on;
-xlabel("sec");
-ylabel('Mean IBI/10s');hold on;
-%grid();
-title(['Mean IBI/10s']);hold off;
-
-% saveas(h6,['IBIs per 10s.fig'])
-% saveas(h6,['IBIs per 10s.png'])
 
