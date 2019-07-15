@@ -1,4 +1,4 @@
-function [] = boxplot_4groupes(gp1,gp2);
+function [] = boxplot_2groupes(gp1,gp2);
 
 
 %Plot WT
@@ -12,8 +12,8 @@ group = [X_gp1'; X_gp2'];
 % [median_G2_post,SEM_G2_post]=grpstats(cell2mat(G2mean_post),G2groupe_post,{'median','sem'});
 
 sz=20;
-scatter(X_gp1, cell2mat(gp1),sz,'b','filled');hold on; % 
-scatter(X_gp2, cell2mat(gp2),sz,'r','filled');hold on; % 
+scatter(X_gp1, cell2mat(gp1),sz,'b');hold on; % ,'filled'
+scatter(X_gp2, cell2mat(gp2),sz,'r');hold on; % 
 jitter1;
 
 boxplot([cell2mat(gp1)'; cell2mat(gp2)'],group); hold on;
@@ -27,7 +27,7 @@ xlim([0.5 2.5]);
 %ylim([0.1 0.5]);
 xticks([1 2]);    
 %xticklabels({'+/+','+/-','-/-'});
-xticklabels({'+/+','-/-'});hold off;
+xticklabels({'Pre','Post'});hold off;
 
 
 % xlim([0.5 8]);

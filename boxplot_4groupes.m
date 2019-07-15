@@ -12,24 +12,24 @@ group = [X_gp1'; X_gp2'; X_gp3'; X_gp4'];
 % [median_G2_pre,SEM_G2_pre]=grpstats(cell2mat(G2mean_pre),G2groupe_pre,{'median','sem'});
 % [median_G2_post,SEM_G2_post]=grpstats(cell2mat(G2mean_post),G2groupe_post,{'median','sem'});
 
-sz=20;
+sz=15;
 scatter(X_gp1, cell2mat(gp1),sz,'b');hold on;
-scatter(X_gp2, cell2mat(gp2),sz,'r');hold on;
-scatter(X_gp3, cell2mat(gp3),sz,'b','filled');hold on;
+scatter(X_gp2, cell2mat(gp2),sz,'b','filled');hold on;
+scatter(X_gp3, cell2mat(gp3),sz,'r');hold on;%,'filled'
 scatter(X_gp4, cell2mat(gp4),sz,'r','filled');hold on;
 jitter1;
 
 boxplot([cell2mat(gp1)'; cell2mat(gp2)';cell2mat(gp3)'; cell2mat(gp4)'],group); hold on;%,cell2mat(gp3)'; cell2mat(gp4)'
 
 % Annotations
-grid();
+%grid();
 %ylabel('Bout duration(in sec)'); 
 %xlabel('Fish');
 xlim([0.5 4.5]);
 %ylim([0.1 0.5]);
 xticks([1 2 3 4]);    
 %xticklabels({'+/+','+/-','-/-'});
-xticklabels({'Pre_Stimulus','Pre_Stimulus','Post_Stimulus','Post_Stimulus'});hold off;
+xticklabels({'+/+','+/+','-/-','-/-'});hold off;
 
 
 % xlim([0.5 8]);
