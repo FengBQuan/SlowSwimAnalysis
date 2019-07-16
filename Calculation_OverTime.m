@@ -496,14 +496,14 @@ for z= 1:Period-1;
        
          G2medianIBI_time{z}{l}= log(median(G2_IBI_time{1,z}{1,l},'omitnan'));
          G2medianFishIBI_time(z)= median(cell2mat(G2medianIBI_time{1,z}),'omitnan');
-         G2_SEM(z)=std(cell2mat(G2medianIBI_time))/sqrt(length(Fish_G2));
+         G2_SEM(z)=std(cell2mat(G2medianIBI_time{1,z}))/sqrt(length(Fish_G2));
     end;
     
 end;
  
 %plot
 plot(1:(Period-1), G2medianFishIBI_time,'bo-');hold on;
-errorbar(1:(Period-1), G2medianFishIBI_time, G2_SEM,'b'); hold on;
+%errorbar(1:(Period-1), G2medianFishIBI_time, G2_SEM,'b'); hold on;
 xlabel("min");
 ylabel('logIBI');hold on;
 %grid();
@@ -544,12 +544,12 @@ for z= 1:Period-1;
         
         G1medianIBI_time{z}{l}= log(median(G1IBI_time{1,z}{1,l},'omitnan'));
         G1medianFishIBI_time(z)= median(cell2mat(G1medianIBI_time{1,z}),'omitnan');
-        G1_SEM(z)=std(cell2mat(G1medianIBI_time))/sqrt(length(Fish_G1));
+        G1_SEM(z)=std(cell2mat(G1medianIBI_time{1,z}))/sqrt(length(Fish_G1));
     end;
 end;
  
-plot(1:(Period-1), G1medianFishIBI_time,'go-');hold on;
-errorbar(1:(Period-1), G1meanFishIBI_time, G1_SEM,'g'); hold on;
+%plot(1:(Period-1), G1medianFishIBI_time,'go-');hold on;
+%errorbar(1:(Period-1), G1meanFishIBI_time, G1_SEM,'g'); hold on;
 xlabel("min");
 ylabel('logIBI');hold on;
 %grid();
@@ -588,14 +588,14 @@ for z= 1:Period-1;
         end;
         
        G0medianIBI_time{z}{l}= log(median(G0IBI_time{1,z}{1,l},'omitnan'));
-       G0medianFishIBI_time{z}= median(cell2mat(G0medianIBI_time{1,z}),'omitnan');
-       G0_SEM(z)=std(cell2mat(G0medianIBI_time))/sqrt(length(Fish_G0));
+       G0medianFishIBI_time(z)= median(cell2mat(G0medianIBI_time{1,z}),'omitnan');
+       G0_SEM(z)=std(cell2mat(G0medianIBI_time{1,z}))/sqrt(length(Fish_G0));
     end;
 end;
  
  
 plot(1:(Period-1), G0medianFishIBI_time,'ro-');hold on;
-errorbar(1:(Period-1), G0medianFishIBI_time, G0_SEM,'r'); hold on;
+%errorbar(1:(Period-1), G0medianFishIBI_time, G0_SEM,'r'); hold on;
 xlabel("min");
 ylabel('logIBI');hold on;
 %grid();
@@ -603,7 +603,6 @@ hold off;
  
 % saveas(h6,['IBIs per 10s.fig'])
 % saveas(h6,['IBIs per 10s.png'])
-
 
 %% Amplitude per min
 h6=figure(6);
@@ -654,7 +653,7 @@ for z= 1:Period;
          
           G2_medianBout_BendAmplitude{z}{l}= median(cell2mat(G2_medianAmp_BendAmplitude{1,z}{1,l})); % median of all bout for fish l
           G2_medianFish_BendAmplitude{z}= median(cell2mat(G2_medianBout_BendAmplitude{1,z}));%median of all fish in period Z
-          G2_SEM(z)=std(cell2mat(G2_medianFish_BendAmplitude))/sqrt(length(Fish_G2));
+          %G2_SEM(z)=std(cell2mat(G2_medianBout_BendAmplitude{1,z}))/sqrt(length(Fish_G2));
          
         
     end
@@ -696,25 +695,22 @@ for z= 1:Period;
             G0_BendAmplitude{z}{l}{h}= 57.2958*[datasetPerBout(idx_TimeWindow(h)).Bend_Amplitude]; % all Amplitude in bout h, for fishl, in period z
             G0_medianAmp_BendAmplitude{z}{l}{h}=median(abs(G0_BendAmplitude{z}{l}{h}));%median Amplitude of bout h, for fishl, in period z
             end
-         
-          
-         end
 
+         end
           G0_medianBout_BendAmplitude{z}{l}= median(cell2mat(G0_medianAmp_BendAmplitude{1,z}{1,l})); % median of all bout for fish l
           G0_medianFish_BendAmplitude{z}= median(cell2mat(G0_medianBout_BendAmplitude{1,z}));%median of all fish in period Z
-          G0_SEM(z)=std(cell2mat(G0_medianFish_BendAmplitude))/sqrt(length(Fish_G0));
-         
-         
+          %G0_SEM(z)=std(cell2mat(G0_medianBout_BendAmplitude{1,z}))/sqrt(length(Fish_G0));
+     
     end
     
 end;
 
 %plot
 plot(1:(Period), cell2mat(G2_medianFish_BendAmplitude),'bo-');hold on;
-errorbar(1:(Period), cell2mat(G2_medianFish_BendAmplitude), G2_SEM,'b'); hold on;
+%errorbar(1:(Period), cell2mat(G2_medianFish_BendAmplitude), G2_SEM,'b'); hold on;
 
 plot(1:(Period), cell2mat(G0_medianFish_BendAmplitude),'ro-');hold on;
-errorbar(1:(Period), cell2mat(G0_medianFish_BendAmplitude), G0_SEM,'r'); hold on;
+%errorbar(1:(Period), cell2mat(G0_medianFish_BendAmplitude), G0_SEM,'r'); hold on;
 xlabel("min");
 ylabel('Degree');hold on;
 
@@ -769,7 +765,7 @@ for z= 1:Period;
          
           G2_meanBout_TBF{z}{l}= mean(cell2mat(G2_meanAmp_TBF{1,z}{1,l})); % mean of all bout for fish l
           G2_meanFish_TBF{z}= mean(cell2mat(G2_meanBout_TBF{1,z}));%mean of all fish in period Z
-          G2_SEM(z)=std(cell2mat(G2_meanFish_TBF))/sqrt(length(Fish_G2));
+          G2_SEM(z)=std(cell2mat(G2_meanBout_TBF{1,z}))/sqrt(length(Fish_G2));
          
         
     end
@@ -817,7 +813,7 @@ for z= 1:Period;
  
           G0_meanBout_TBF{z}{l}= mean(cell2mat(G0_meanAmp_TBF{1,z}{1,l})); % mean of all bout for fish l
           G0_meanFish_TBF{z}= mean(cell2mat(G0_meanBout_TBF{1,z}));%mean of all fish in period Z
-          G0_SEM(z)=std(cell2mat(G0_meanFish_TBF))/sqrt(length(Fish_G0));
+          G0_SEM(z)=std(cell2mat(G0_meanBout_TBF{1,z}))/sqrt(length(Fish_G0));
          
          
     end
@@ -832,7 +828,7 @@ plot(1:(Period), cell2mat(G0_meanFish_TBF),'ro-');hold on;
 errorbar(1:(Period), cell2mat(G0_meanFish_TBF), G0_SEM,'r'); hold on;
 xlabel("min");
 ylabel('Hz');hold on;
- 
+
 hold off;
 
 
