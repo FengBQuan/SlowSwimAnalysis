@@ -615,9 +615,10 @@ title(['Median Bend_Amplitude per min']);
             Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
-G2_Bend_Amplitude_time=[];
-G2medianBend_Amplitude_time=[];
-G2medianFishBend_Amplitude_time=[];
+G2_BendAmplitude=[];
+G2_medianAmp_BendAmplitude=[];
+G2_medianBout_BendAmplitude=[];
+G2_medianFish_BendAmplitude=[];
  
 
 for z= 1:Period;
@@ -625,106 +626,98 @@ for z= 1:Period;
     for l=1:length(Fish_G2)
         %fprintf("-- Fish %d --\n",l);
         l
-       %while [datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1) & [datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z;
-%         if z==1;
-%             idx_TimeWindow= allindex{Fish_G2(l)}(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-%             G2_Bend_Amplitude_time{z}{l} = [datasetPerBout(idx_TimeWindow).Bend_Amplitude];
-%         else
 
-
-            
-         try
-            idx_TimeWindow= allindex{Fish_G2(l)}(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
+         if numel(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
+            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
+            G2_BendAmplitude{z}{l}{h}=0;
+            G2_medianAmp_BendAmplitude{z}{l}{h}=0;
+            G2_medianBout_BendAmplitude{z}{l}=0;
+            G2_medianFish_BendAmplitude{z}=0;
+          
+         else
+         idx_TimeWindow= allindex{Fish_G2(l)}(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
             
             for h=1:length(idx_TimeWindow)
-                
-            G2_Bend_Amplitude_time{z}{l}{h}=median(abs(datasetPerBout(idx_TimeWindow(h)).Bend_Amplitude));
+                h
+            display(['currently processing period ' num2str(z)])    
+            display(['currently processing fish ' num2str(l)])
+            display(['currently processing bout number ' num2str(h)])
+            
+            G2_BendAmplitude{z}{l}{h}= 57.2958*[datasetPerBout(idx_TimeWindow(h)).Bend_Amplitude]; % all Amplitude in bout h, for fishl, in period z
+            G2_medianAmp_BendAmplitude{z}{l}{h}=median(abs(datasetPerBout(idx_TimeWindow(h)).Bend_Amplitude));%median Amplitude of bout h, for fishl, in period z
             end
- 
-         catch
-            numel(find( ([datasetPerBout( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
-            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
-            G2_Bend_Amplitude_time{z}{l}=0;
-         %end;
-          
-        end;
- 
-       %end;
-        if isempty(G2_Bend_Amplitude_time{z}{l});
-            G2_Bend_Amplitude_time{z}{l}= 0;
-        end;
          
-         G2_Bend_Amplitude_time{z}{l}= median(G2_Bend_Amplitude_time{1,z}{1,l},'omitnan'); % median BD for fish l
-         G2medianFishBend_Amplitude_time(z)= median(cell2mat(G2medianBend_Amplitude_time{1,z}),'omitnan');%median of all BD of all fish in period Z
-         G2_SEM(z)=std(cell2mat(G2medianBend_Amplitude_time{1,z}))/sqrt(length(Fish_G2));
+          
+         end
+ 
+       
+         
+          G2_medianBout_BendAmplitude{z}{l}= median(cell2mat(G2_medianAmp_BendAmplitude{1,z}{1,l})); % median of all bout for fish l
+          G2_medianFish_BendAmplitude{z}= median(cell2mat(G2_medianBout_BendAmplitude{1,z}));%median of all fish in period Z
+          G2_SEM(z)=std(cell2mat(G2_medianFish_BendAmplitude))/sqrt(length(Fish_G2));
          
         
-    end;
+    end
     
 end;
  
-%plot
-plot(1:(Period), G2medianFishBend_Amplitude_time,'bo-');hold on;
-%errorbar(1:(Period), G2medianFishBend_Amplitude_time, G2_SEM,'b'); hold on;
-xlabel("min");
-ylabel('Degree');hold on;
-%grid();
  
-%% G1---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+% G1---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 % G0---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
-G0_Bend_Amplitude_time=[];
-G0medianBend_Amplitude_time=[];
-G0medianFishBend_Amplitude_time=[];
+G0_BendAmplitude=[];
+G0_medianAmp_BendAmplitude=[];
+G0_medianBout_BendAmplitude=[];
+G0_medianFish_BendAmplitude=[];
  
-G0_Total_Bend_Amplitude_time=[];
-G0medianFishTotalBD_time=[];
+ 
 for z= 1:Period;
     z %fprintf(" %d min %d\n",z);
     for l=1:length(Fish_G0)
         %fprintf("-- Fish %d --\n",l);
         l
-       %while [datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1) & [datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z;
-        if z==1;
-            idx_TimeWindow= allindex{Fish_G0(l)}(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G0_Bend_Amplitude_time{z}{l} = [datasetPerBout(idx_TimeWindow).Bend_Amplitude];
-        else
-            
-         try
-            idx_TimeWindow= allindex{Fish_G0(l)}(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G0_Bend_Amplitude_time{z}{l} = [datasetPerBout(idx_TimeWindow).Bend_Amplitude];
-       
-            
-         catch
-            numel(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
-            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
-            G0_Bend_Amplitude_time{z}{l}=0;
-         end;
-          
-        end;
  
-       %end;
-        if isempty(G0_Bend_Amplitude_time{z}{l});
-            G0_Bend_Amplitude_time{z}{l}= 0;
-        end;
+         if numel(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
+            disp(['empty Bout for time' num2str(z) 'Fish' num2str(l)]);
+            G0_BendAmplitude{z}{l}{h}=0;
+            G0_medianAmp_BendAmplitude{z}{l}{h}=0;
+            G0_medianBout_BendAmplitude{z}{l}=0;
+            G0_medianFish_BendAmplitude{z}=0;
+          
+         else
+         idx_TimeWindow= allindex{Fish_G0(l)}(find( ([datasetPerBout( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
+            
+            for h=1:length(idx_TimeWindow)
+                h
+            display(['currently processing period ' num2str(z)])    
+            display(['currently processing fish ' num2str(l)])
+            display(['currently processing bout number ' num2str(h)])
+            
+            G0_BendAmplitude{z}{l}{h}= 57.2958*[datasetPerBout(idx_TimeWindow(h)).Bend_Amplitude]; % all Amplitude in bout h, for fishl, in period z
+            G0_medianAmp_BendAmplitude{z}{l}{h}=median(abs(datasetPerBout(idx_TimeWindow(h)).Bend_Amplitude));%median Amplitude of bout h, for fishl, in period z
+            end
          
-         G0medianBend_Amplitude_time{z}{l}= median(G0_Bend_Amplitude_time{1,z}{1,l},'omitnan'); % median BD for fish l
-         G0medianFishBend_Amplitude_time(z)= median(cell2mat(G0medianBend_Amplitude_time{1,z}),'omitnan');%median of all BD of all fish in period Z
-         G0_SEM(z)=std(cell2mat(G0medianBend_Amplitude_time{1,z}))/sqrt(length(Fish_G0));
-         
+          
+         end
 
-    end;
+          G0_medianBout_BendAmplitude{z}{l}= median(cell2mat(G0_medianAmp_BendAmplitude{1,z}{1,l})); % median of all bout for fish l
+          G0_medianFish_BendAmplitude{z}= median(cell2mat(G0_medianBout_BendAmplitude{1,z}));%median of all fish in period Z
+          G0_SEM(z)=std(cell2mat(G0_medianFish_BendAmplitude))/sqrt(length(Fish_G0));
+         
+         
+    end
     
 end;
- 
+
 %plot
-plot(1:(Period), G0medianFishBend_Amplitude_time,'ro-');hold on;
-errorbar(1:(Period), G0medianFishBend_Amplitude_time, G0_SEM,'r'); hold on;
+plot(1:(Period), cell2mat(G2_medianFish_BendAmplitude),'bo-');hold on;
+errorbar(1:(Period), cell2mat(G2_medianFish_BendAmplitude), G2_SEM,'b'); hold on;
+
+plot(1:(Period), cell2mat(G0_medianFish_BendAmplitude),'ro-');hold on;
+errorbar(1:(Period), cell2mat(G0_medianFish_BendAmplitude), G0_SEM,'b'); hold on;
 xlabel("min");
 ylabel('Degree');hold on;
-%grid();
- 
- 
+
 hold off;
 
 
