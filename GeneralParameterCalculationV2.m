@@ -8,7 +8,7 @@ InitialFolder='/Users/bong-iquan/MATLAB/sst1.1_mutant/Slow_swim';
  
 % Figure out how many trials to analyse
 cd(InitialFolder)
-list=dir('*_workspace_SST_4manip_SlowSwim*');
+list=dir('*_workspace_SST_CTL_noStim_20190627_28out*');
 %list2=list([list.isdir]==0);%list all folders but no file (make sure I have only folders) 1==folder; 0==file;
 NFolder=size(list,1);
 
@@ -56,8 +56,33 @@ EscapeWindow = [unique([datasetPerBout(:).EscapeWindow1]) unique([datasetPerBout
 
 for i=1:NumberFish;
     i
+%% select good swimers
+
+    Fish_temp=Fish;
+%     for i=1:NumberFish;
+%         
+%         if isempty([IBI_pre{Fish(i)}]);
+%             disp(['empty cell array IBI pre for fish' num2str(Fish(i))]);
+%             
+%             
+%         elseif mean([IBI_pre{Fish(i)}]) > 3.3 ;
+%             disp(['Bad IBI for fish' num2str(Fish(i))]);
+%             
+%             Fish_temp(i)=NaN;
+%             index{Fish(i)}=[];
+%             allindex{Fish(i)}=[];
+%             
+%         else disp(['all is good with'  num2str(Fish(i))]);
+%             
+%         end;
+%     end;
+% 
+% %return
+% 
+% Fish_temp(isnan(Fish_temp))=[];
+
     % Define genotype
-Fish_temp=Fish; % to use datasetPerFish
+%Fish_temp=Fish; % to use datasetPerFish
 FishGeno=([datasetPerFish.Genotype]);
 Fish_ID = ([datasetPerFish.Condition]);
 NTrial = ([datasetPerFish.NTrial]);
@@ -82,6 +107,7 @@ Fish_G0=Fish_temp(find(FishGeno( find( Fish_temp ) )==0));
     
     Bouts_Pre_Escape= allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]< EscapeWindow(1)));
     Bouts_Post_Escape= allindex{Fish(i)}(find([datasetPerBout(allindex{Fish(i)}).BoutStart]>EscapeWindow(2)));
+    
     
     datasetPreEscape=datasetPerBout(Bouts_Pre_Escape);
     datasetPostEscape=datasetPerBout(Bouts_Post_Escape);
@@ -140,7 +166,7 @@ Fish_G0=Fish_temp(find(FishGeno( find( Fish_temp ) )==0));
             
             Pre_TailAngle{Fish(i)}{h}=57.2958*[datasetPreEscape(idx_PreEscape{Fish(i)}(h)).TailAngle_smoothed]';
             Pre_Bend_Timing{Fish(i)}{h}=[datasetPreEscape(idx_PreEscape{Fish(i)}(h)).Bend_Timing];
-            Pre_Bend_Amplitude{Fish(i)}{h} = 57.2958*datasetPreEscape(idx_PreEscape{Fish(i)}(h)).Bend_Amplitude;
+            Pre_Bend_Amplitude{Fish(i)}{h} = 57.2958*[datasetPreEscape(idx_PreEscape{Fish(i)}(h)).Bend_Amplitude];
             Pre_AmpMedianPerBout{Fish(i)}(h)=median(abs(Pre_Bend_Amplitude{Fish(i)}{h}));
             Pre_TBF{Fish(i)}{h} = [datasetPreEscape(idx_PreEscape{Fish(i)}(h)).InstantaneousTBF];
             Pre_TBFmedianPerBout{Fish(i)}(h)=median(Pre_TBF{Fish(i)}{h});
@@ -448,7 +474,8 @@ title('Amplitude in degree');hold on;
 boxplot_2groupes(G2medianAmpmitude_pre,G0medianAmpmitude_pre); hold on;
 hold off;
 
-
+saveas(h1,['Pre_Stimulus overview.fig'])
+%saveas(h1,['Pre_Stimulus overview.png'])
 %% Post_Stimulus subplot 
 h2=figure(2); 
 title('Post_Stimulus');hold on;
@@ -503,7 +530,9 @@ subplot(2,4,8)
 title('Amplitude in degree');hold on;  
 %boxplot_2groupes(G2medianAmpmitude_pre,G2medianAmpmitude_post); hold on;
 boxplot_4groupes(G2medianAmpmitude_pre,G2medianAmpmitude_post,G0medianAmpmitude_pre,G0medianAmpmitude_post); hold on;
+%ylim([0 4]);
 hold off;
 
-
+saveas(h2,['Post_Stimulus overview.fig'])
+%saveas(h2,['Post_Stimulus overview.png'])
 

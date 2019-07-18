@@ -2,10 +2,10 @@
 close all
 clear variables
 clc
-load('Analysis_results_SST_4manip_SlowSwim.mat')
+load('Analysis_results_SST_CTL_NoStim_20190627_28out.mat')
 %% BoutDuration over time calculation
        
-            nFrames= 60634;% EscapeWindow(1); %
+            nFrames= 60634;% EscapeWindow(1); using EscapeWindow(1) for first 5 min calculations
             fps= unique([datasetPerBout(:).fps]);
             TimeWindow= 60; %in sec
             Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
@@ -340,7 +340,8 @@ legend('-/-','+/+');
             fps= unique([datasetPerBout(:).fps]);
             TimeWindow= 60; %in sec
             Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
-% G2
+% G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
 G2IBI_time=[];
 G2medianIBI_time=[];
 G2medianFishIBI_time=[];
@@ -379,53 +380,9 @@ for z= 1:Period-1;
     end;
     
 end;
+ 
+% G0---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-%G1
-G1IBI_time=[];
-G1medianIBI_time=[];
-G1medianFishIBI_time=[];
-for z= 1:Period-1;
-    z %fprintf(" %d min %d\n",z);
-    for l=1:length(Fish_G1)
-        %fprintf("-- Fish %d --\n",l);
-        l
-       
-        if z==1;
-            idx_TimeWindow= index{Fish_G1(l)}(find( ([datasetPerBout( allindex{Fish_G1(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G1(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G1IBI_time{z}{l} = [datasetPerBout(idx_TimeWindow).InstantaneousIBI];
-        else
-            
-         try
-            idx_TimeWindow= allindex{Fish_G1(l)}(find( ([datasetPerBout( allindex{Fish_G1(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G1(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
-            G1IBI_time{z}{l} = [datasetPerBout(idx_TimeWindow).InstantaneousIBI];
-            
-         catch
-            numel(find( ([datasetPerBout( allindex{Fish_G1(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetPerBout( allindex{Fish_G1(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
-            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
-            G1IBI_time{z}{l}=10;
-         end;
-          
-        end;
- 
-     
-        if isempty(G1IBI_time{z}{l});
-            G1IBI_time{z}{l}=10;
-        end;
-        
-        G1medianIBI_time{z}{l}= log(median(G1IBI_time{1,z}{1,l},'omitnan'));
-        G1medianFishIBI_time(z)= median(cell2mat(G1medianIBI_time{1,z}),'omitnan');
-        G1_SEM(z)=std(cell2mat(G1medianIBI_time{1,z}))/sqrt(length(Fish_G1));
-    end;
-end;
- 
-%plot(1:(Period-1), G1medianFishIBI_time,'go-');hold on;
-%errorbar(1:(Period-1), G1meanFishIBI_time, G1_SEM,'g'); hold on;
-xlabel("min");
-ylabel('logIBI');hold on;
-%grid();
-
- 
-%G0
 G0IBI_time=[];
 G0medianIBI_time=[];
 G0medianFishIBI_time=[];
@@ -687,7 +644,7 @@ end;
 
 %% h8=figure(8) mean TBF
 h8=figure(8);
-title(['Mean TBF per min']);
+title(['Mean TBF per min']);hold on;
 %plot
 plot(1:(Period), cell2mat(G2_meanFish_TBF),'bo-');hold on;
 errorbar(1:(Period), cell2mat(G2_meanFish_TBF), G2_SEM,'b'); hold on;

@@ -27,7 +27,7 @@ xlim([0.5 2.5]);
 %ylim([0.1 0.5]);
 xticks([1 2]);    
 %xticklabels({'+/+','+/-','-/-'});
-xticklabels({'Pre','Post'});hold off;
+xticklabels({'+/+','-/-'});hold off;
 
 
 % xlim([0.5 8]);
