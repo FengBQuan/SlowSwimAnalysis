@@ -84,7 +84,7 @@ G2IBI_time=[];
 % G2medianFishIBI_time=[];
 % G2_IBI_SEM=[];
  
-for z= 1:Period-1;
+for z= 1:Period;
     z %fprintf(" %d min %d\n",z);
     for l=1:length(Fish_G2)
         %fprintf("-- Fish %d --\n",l);
@@ -129,7 +129,7 @@ G0IBI_time=[];
 % G0medianFishIBI_time=[];
 % G0_IBI_SEM=[];
  
-for z= 1:Period-1;
+for z= 1:Period;
     z %fprintf(" %d min %d\n",z);
     for l=1:length(Fish_G0)
         %fprintf("-- Fish %d --\n",l);
@@ -877,130 +877,176 @@ end;
  
 save('workspace_Speed.mat')
 
-%% Figure
+save('workspace_allParameter.mat')
+
+%% Bout Frequency plot
 
 h1=figure(1)
-title ('Parameters over section time');hold on;
 
-subplot(2,4,1)
 title ('Bout Frequency over section time');hold on;
- 
-plot(1:(Period-1), G2medianFishBoutFreq_time,'bo-');hold on;
+
+plot(1:(Period), G2medianFishBoutFreq_time,'bo-');hold on;
 %errorbar(1:(Period-1), G2medianFishBoutFreq_time, G2_IBI_SEM,'b'); hold on;       
-plot(1:(Period-1), G0medianFishBoutFreq_time,'ro-');hold on;
+plot(1:(Period), G0medianFishBoutFreq_time,'ro-');hold on;
 %errorbar(1:(Period-1), G0medianFishBoutFreq_time, G0_IBI_SEM,'r'); hold on;
-xlabel("Period per 2 min");
-ylabel('Hz');hold on;
+xlabel("2 min per Period");
+ylabel('Bout Frequency(Hz)');hold on;
+legend('-/-','+/+');
 %grid();
 hold off;
 
+saveas(h1,['BoutFrequency per 2min.fig'])
+saveas(h1,['BoutFrequency per 2min.epsc'])
 
-subplot(2,4,2)
-title(['BoutDuration over time']);hold on;
- 
-plot(1:(Period), G2medianFishBoutDuration_time,'bo-');hold on;
-errorbar(1:(Period), G2medianFishBoutDuration_time, G2_SEM,'b'); hold on;
- 
-plot(1:(Period), G0medianFishBoutDuration_time,'ro-');hold on;
-errorbar(1:(Period), G0medianFishBoutDuration_time, G0_SEM,'r'); hold on;
-xlabel("Period per 2 min");hold on;
-ylabel('BoutDuration in sec');hold on;
-%grid();
-hold off;
+%% All parameters plot
 
+h2=figure(2)
 
-subplot(2,4,3)
+subplot(2,3,1)
 title(['BoutDistance over time']);hold on;
 
 plot(1:(Period), G2medianFishDistance_time,'bo-');hold on;
-errorbar(1:(Period), G2medianFishDistance_time, G2_SEM,'b'); hold on;
-
 plot(1:(Period), G0medianFishDistance_time,'ro-');hold on;
+
+errorbar(1:(Period), G2medianFishDistance_time, G2_SEM,'b'); hold on;
 errorbar(1:(Period), G0medianFishDistance_time, G0_SEM,'r'); hold on;
-xlabel("Period per 2 min");
-ylabel('BoutDistance in mm');hold on;
+
+legend('-/-','+/+');
+
+xlabel("2 min per Period");
+ylabel('BoutDistance (mm)');hold on;
+
 %grid();
 hold off;
 
 
-subplot(2,4,4)
-title ('median nBout over section time');hold on;
+subplot(2,3,2)
+title(['BoutDuration over time']);hold on;
  
-plot(1:Period, G2MedianPerMin,'bo-');hold on;
-errorbar(1:Period, G2MedianPerMin, G2_SEM,'b'); hold on;
- 
-plot(1:Period, G0MedianPerMin,'ro-');
-errorbar(1:Period, G0MedianPerMin, G0_SEM,'r'); hold on;
-xlabel("Period per 2 min");
-ylabel('nBout');
-%legend('-/-','+/+');
+plot(1:(Period), G2medianFishBoutDuration_time,'bo-');hold on;
+plot(1:(Period), G0medianFishBoutDuration_time,'ro-');hold on;
+
+errorbar(1:(Period), G2medianFishBoutDuration_time, G2_SEM,'b'); hold on;
+errorbar(1:(Period), G0medianFishBoutDuration_time, G0_SEM,'r'); hold on;
+xlabel("2 min per Period");hold on;
+ylabel('BoutDuration (sec)');hold on;
+legend('-/-','+/+');
 %grid();
 hold off;
 
 
-
-subplot(2,4,5)
-title(['Median Bend_Amplitude per min']);hold on;
- 
-plot(1:(Period), cell2mat(G2_medianFish_BendAmplitude),'bo-');hold on;
-errorbar(1:(Period), cell2mat(G2_medianFish_BendAmplitude), G2_SEM,'b'); hold on;
- 
-plot(1:(Period), cell2mat(G0_medianFish_BendAmplitude),'ro-');hold on;
-errorbar(1:(Period), cell2mat(G0_medianFish_BendAmplitude), G0_SEM,'r'); hold on;
-xlabel("Period per 2 min");
-ylabel('Degree');hold on;
- 
-hold off;
-
-
-subplot(2,4,6)
+subplot(2,3,3)
 title(['BoutSpeed over time']);hold on;
-%G2
+
 plot(1:(Period), G2medianFishSpeed_time,'bo-');hold on;
-errorbar(1:(Period), G2medianFishSpeed_time, G2_SEM,'b'); hold on;
-%G0
 plot(1:(Period), G0medianFishSpeed_time,'ro-');hold on;
+errorbar(1:(Period), G2medianFishSpeed_time, G2_SEM,'b'); hold on;
 errorbar(1:(Period), G0medianFishSpeed_time, G0_SEM,'r'); hold on;
  
-xlabel("Period per 2 min");
-ylabel('BoutSpeed in mm');hold on;
+xlabel("2 min per Period");
+ylabel('BoutSpeed (mm/s)');hold on;
+
+legend('-/-','+/+');
 %grid();
 hold off;
 
 
-subplot(2,4,7)
-title([' Mean NumberOfOscillations over time']);hold on;
+subplot(2,3,4)
+title(['Number Of Oscillations over time']);hold on;
  
 plot(1:(Period), G2meanFishNumberOfOscillations_time,'bo-');hold on;
-errorbar(1:(Period), G2meanFishNumberOfOscillations_time, G2_SEM,'b'); hold on;
- 
 plot(1:(Period), G0meanFishNumberOfOscillations_time,'ro-');hold on;
+errorbar(1:(Period), G2meanFishNumberOfOscillations_time, G2_SEM,'b'); hold on;
 errorbar(1:(Period), G0meanFishNumberOfOscillations_time, G0_SEM,'r'); hold on;
  
-xlabel("Period per 2 min");hold on;
-ylabel('NumberOfOscillations in sec');hold on;
+xlabel("2 min per Period");hold on;
+ylabel('Number Of Oscillations');hold on;
+legend('-/-','+/+');
 %grid();
 hold off;
 
-subplot(2,4,8)
-title(['TBF(NumberOfOscillations/Duration) over time']);hold on;
+
+subplot(2,3,5)
+title(['TBF  over time']);hold on;
  
 plot(1:(Period), G2medianFishTBF_time,'bo-');hold on;
-errorbar(1:(Period), G2medianFishTBF_time, G2_SEM,'b'); hold on;
- 
 plot(1:(Period), G0medianFishTBF_time,'ro-');hold on;
+
+errorbar(1:(Period), G2medianFishTBF_time, G2_SEM,'b'); hold on;
 errorbar(1:(Period), G0medianFishTBF_time, G0_SEM,'r'); hold on;
  
-xlabel("Period per 2 min");hold on;
-ylabel('TBF in Hz');hold on;
+xlabel("2 min per Period");hold on;
+ylabel('TBF (Hz)');hold on;
+legend('-/-','+/+');
 %grid();
 hold off;
 
 
+subplot(2,3,6)
+
+title(['Maxi Bend Amplitude over time']);hold on;
+ 
+plot(1:(Period), cell2mat(G2_medianFish_BendAmplitude),'bo-');hold on; 
+plot(1:(Period), cell2mat(G0_medianFish_BendAmplitude),'ro-');hold on;
+
+errorbar(1:(Period), cell2mat(G2_medianFish_BendAmplitude), G2_SEM,'b'); hold on;
+errorbar(1:(Period), cell2mat(G0_medianFish_BendAmplitude), G0_SEM,'r'); hold on;
+xlabel("2 min per Period");
+ylabel('Maxi Bend Amplitude (Degree)');hold on;
+legend('-/-','+/+');
+hold off;
 
 
-saveas(h1,['Parameters per 2min.fig'])
-saveas(h1,['Parameters per 2min.epsc'])
+saveas(h2,['Parameters per 2min.fig'])
+saveas(h2,['Parameters per 2min.epsc'])
 
 
+%% nBout
 
+% h11=figure(11);
+% title ('median nBout over section time');hold on;
+%  
+% plot(1:Period, G2MedianPerMin,'bo-');hold on;
+% errorbar(1:Period, G2MedianPerMin, G2_SEM,'b'); hold on;
+%  
+% plot(1:Period, G0MedianPerMin,'ro-');
+% errorbar(1:Period, G0MedianPerMin, G0_SEM,'r'); hold on;
+% xlabel("Period per 2 min");
+% ylabel('nBout');
+%legend('-/-','+/+');
+%grid();
+%hold off;
+
+%% Total Duration
+
+% h22=figure(22);
+% title(['Total Duration per min']);hold on;
+%  
+% plot(1:(Period), G2medianFishTotalBD_time,'bo-');hold on;
+% errorbar(1:(Period), G2medianFishTotalBD_time, G2_Total_SEM,'b'); hold on;
+%  
+% plot(1:(Period), G0medianFishTotalBD_time,'ro-');hold on;
+% errorbar(1:(Period), G0medianFishTotalBD_time, G2_Total_SEM,'r'); hold on;
+%  
+% xlabel("min");
+% ylabel('TotalBoutDuration');hold on;
+% %grid();
+% hold off;
+ 
+% saveas(h2,['Total Duration per min.fig'])
+% saveas(h2,['Total Duration per min.png'])
+
+%% Total Distance 
+
+%h33=figure(33);
+% title(['Total Distance over time']);hold on;
+% %G2
+% plot(1:(Period), G2medianFishTotalDistance_time,'bo-');hold on;
+% errorbar(1:(Period), G2medianFishTotalDistance_time, G2_Total_SEM,'b'); hold on;
+% %G0
+% plot(1:(Period), G0medianFishTotalDistance_time,'ro-');hold on;
+% errorbar(1:(Period), G0medianFishTotalDistance_time, G0_Total_SEM,'r'); hold on;
+%  
+% xlabel("min");
+% ylabel('Total Distance in mm');hold on;
+% hold off;
