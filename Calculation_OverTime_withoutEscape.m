@@ -5,30 +5,27 @@ clear variables
 clc
 load('matlab_workspace_SST_4manip_SlowSwim.mat')
 
-%% set new datasetSlowSwimBouts
-Fish = unique([datasetPerFish(:).Condition]);
+% good swimers
+    
+% set new datasetSlowSwimBouts
+%NoSwimFish= find([datasetPerFish(:).MeanIBI]> 10);
+GoodSwimers=find(~([datasetPerFish(:).MeanIBI]> 10));
+datasetGoodFish=datasetPerFish(GoodSwimers);
+
+Fish = unique([datasetGoodFish(:).Condition]);
 NumberFish=length(Fish);
 
+
 % find EscapeWindow
-%EscapeWindow = [(unique([datasetPerBout(:).EscapeWindow1])-100) (unique([datasetPerBout(:).EscapeWindow1])+5900)];
-EscapeWindow = [30037 30286];
+EscapeWindow = [30000 30350];
 
 
 EscapeBout=find((([datasetPerBout(:).BoutStart]> EscapeWindow(1)) & ([datasetPerBout(:).BoutStart]< EscapeWindow(2)) ))   ;
 SlowSwimBouts=find(~(([datasetPerBout(:).BoutStart]> EscapeWindow(1)) & ([datasetPerBout(:).BoutStart]< EscapeWindow(2)) ) );
 datasetSlowSwimBouts= datasetPerBout(SlowSwimBouts);
 
-for i=1:NumberFish;
-    
-    % Define genotype
-Fish_temp=Fish; % to use datasetPerFish
-FishGeno=([datasetPerFish.Genotype]);
-Fish_ID = ([datasetPerFish.Condition]);
-NTrial = ([datasetPerFish.NTrial]);
 
-Fish_G2=Fish_temp(find(FishGeno( find( Fish_temp ) )==2));
-Fish_G1=Fish_temp(find(FishGeno( find( Fish_temp ) )==1));
-Fish_G0=Fish_temp(find(FishGeno( find( Fish_temp ) )==0));
+for i=1:NumberFish;
 
 allindex{Fish(i)}= find(~([datasetSlowSwimBouts(:).Condition]-Fish(i)));
 
@@ -40,48 +37,59 @@ else if numel(index{Fish(i)})==0;
         index{Fish(i)}=[];
     end
 end
-   
-   for h=1:length(allindex{Fish(i)});
-        
-        display(['currently processing fish ' num2str(i)])
-        display(['currently processing bout number ' num2str(h)])
-        
-        TailAngle{Fish(i)}{h}=57.2958*[datasetSlowSwimBouts(allindex{Fish(i)}(h)).TailAngle_smoothed]';
 
-        Bend_Amplitude{Fish(i)}{h} = 57.2958*[datasetSlowSwimBouts(allindex{Fish(i)}(h)).Bend_Amplitude];
-        
-        Max_Amp{Fish(i)}{h}=max(Bend_Amplitude{Fish(i)}{h});
-        
-        %idx_TurnBout= allindex{Fish(i)}(find( max(abs(57.2958*[datasetPerBout(allindex{Fish(i)}).Bend_Amplitude])) > 30 ));
-      
-    end;
+IBI_pre{Fish(i)} = [datasetSlowSwimBouts(index{Fish(i)}(find([datasetSlowSwimBouts(index{Fish(i)}).BoutStart]< EscapeWindow(1)))).InstantaneousIBI];
+   
+%    for h=1:length(allindex{Fish(i)});
+%         
+%         display(['currently processing fish ' num2str(i)])
+%         display(['currently processing bout number ' num2str(h)])
+%         
+%         TailAngle{Fish(i)}{h}=57.2958*[datasetSlowSwimBouts(allindex{Fish(i)}(h)).TailAngle_smoothed]';
+% 
+%         Bend_Amplitude{Fish(i)}{h} = 57.2958*[datasetSlowSwimBouts(allindex{Fish(i)}(h)).Bend_Amplitude];
+%         
+%         Max_Amp{Fish(i)}{h}=max(Bend_Amplitude{Fish(i)}{h});
+%         
+%         %idx_TurnBout= allindex{Fish(i)}(find( max(abs(57.2958*[datasetPerBout(allindex{Fish(i)}).Bend_Amplitude])) > 30 ));
+%       
+%     end;
 
 end
 
-%% 
-close all
-clear variables
-clc
-load('Analysis_SST_4manip_without249frames.mat')
 
-%% IBI over time
- 
+Fish_temp=Fish;
+
+
+FishGeno=([datasetGoodFish.Genotype]);
+
+Fish_G2=Fish_temp(find(FishGeno( find( Fish_temp ) )==2));
+Fish_G1=Fish_temp(find(FishGeno( find( Fish_temp ) )==1));
+Fish_G0=Fish_temp(find(FishGeno( find( Fish_temp ) )==0));
+
+save('Analysis_SST_4manip_without249frames_20180912_goodFish.mat')
+
             nFrames= 60385;
             fps= unique([datasetSlowSwimBouts(:).fps]);
             TimeWindow= 120; %in sec
             Period= nFrames/(fps*TimeWindow); %Period = (60034/(100*60);
+
+%% IBI over time
+
+
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 G2IBI_time=[];
-G2medianIBI_time=[];
-G2medianFishIBI_time=[];
-G2_IBI_SEM=[];
+% G2medianIBI_time=[];
+% G2medianFishIBI_time=[];
+% G2_IBI_SEM=[];
  
 for z= 1:Period-1;
     z %fprintf(" %d min %d\n",z);
     for l=1:length(Fish_G2)
         %fprintf("-- Fish %d --\n",l);
         l
+        
        %while [datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1) & [datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z;
         if z==1;
             idx_TimeWindow= index{Fish_G2(l)}(find( ([datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
@@ -91,9 +99,7 @@ for z= 1:Period-1;
          try
             idx_TimeWindow= allindex{Fish_G2(l)}(find( ([datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
             G2_IBI_time{z}{l} = [datasetSlowSwimBouts(idx_TimeWindow).InstantaneousIBI];
-            %G2_BoutDuration_time{z}{l} = [datasetSlowSwimBouts(idx_TimeWindow).BoutDuration];
-       
-            
+  
          catch
             numel(find( ([datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
             disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
@@ -119,16 +125,17 @@ end;
 % G0---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 G0IBI_time=[];
-G0medianIBI_time=[];
-G0medianFishIBI_time=[];
-G0_IBI_SEM=[];
+% G0medianIBI_time=[];
+% G0medianFishIBI_time=[];
+% G0_IBI_SEM=[];
  
 for z= 1:Period-1;
     z %fprintf(" %d min %d\n",z);
     for l=1:length(Fish_G0)
         %fprintf("-- Fish %d --\n",l);
         l
-       
+
+        
         if z==1;
             idx_TimeWindow= index{Fish_G0(l)}(find( ([datasetSlowSwimBouts( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
             G0IBI_time{z}{l} = [datasetSlowSwimBouts(idx_TimeWindow).InstantaneousIBI];
@@ -160,6 +167,7 @@ for z= 1:Period-1;
     end;
 end;
  
+save('BoutFreqErrorbarCheck.mat', 'G0medianIBI_time','G2medianIBI_time')
 % h6=figure(6) Bout Frequency over time
 h6=figure(6);
 title ('Bout Frequency over section time');hold on;
@@ -174,27 +182,19 @@ ylabel('Hz');hold on;
 %grid();
 hold off;
  
-%saveas(h6,['Bout Frequency per 2min.fig'])
-% saveas(h6,['IBIs per 10s.png'])
+saveas(h6,['Bout Frequency per 2min.fig'])
+saveas(h6,['Bout Frequency per 2min.eps'])
  
 %% BoutDuration over time calculation
-close all
-clear variables
-clc
-load('Analysis_SST_4manip_without249frames.mat')
 
-            nFrames= 60385;% EscapeWindow(1); using EscapeWindow(1) for first 5 min calculations
-            fps= unique([datasetSlowSwimBouts(:).fps]);
-            TimeWindow= 120; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 G2_BoutDuration_time=[];
-G2medianBoutDuration_time=[];
-G2medianFishBoutDuration_time=[];
- 
-G2_Total_BoutDuration_time=[];
-G2medianFishTotalBD_time=[];
+% G2medianBoutDuration_time=[];
+% G2medianFishBoutDuration_time=[];
+%  
+% G2_Total_BoutDuration_time=[];
+% G2medianFishTotalBD_time=[];
 for z= 1:Period;
     z %fprintf(" %d min %d\n",z);
     for l=1:length(Fish_G2)
@@ -237,11 +237,11 @@ end;
   
 % G0---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 G0_BoutDuration_time=[];
-G0medianBoutDuration_time=[];
-G0medianFishBoutDuration_time=[];
- 
-G0_Total_BoutDuration_time=[];
-G0medianFishTotalBD_time=[];
+% G0medianBoutDuration_time=[];
+% G0medianFishBoutDuration_time=[];
+%  
+% G0_Total_BoutDuration_time=[];
+% G0medianFishTotalBD_time=[];
  
 for z= 1:Period;
     z %fprintf(" %d min %d\n",z);
@@ -300,34 +300,26 @@ hold off;
 % saveas(h1,['BoutDuration over time.fig'])
 % saveas(h1,['BoutDuration over time.png'])
 %% figure(2) Total Duration per min
-h2=figure(2);
-title(['Total Duration per min']);hold on;
- 
-plot(1:(Period), G2medianFishTotalBD_time,'bo-');hold on;
-errorbar(1:(Period), G2medianFishTotalBD_time, G2_Total_SEM,'b'); hold on;
- 
-plot(1:(Period), G0medianFishTotalBD_time,'ro-');hold on;
-errorbar(1:(Period), G0medianFishTotalBD_time, G2_Total_SEM,'r'); hold on;
- 
-xlabel("min");
-ylabel('TotalBoutDuration');hold on;
-%grid();
-hold off;
+% h2=figure(2);
+% title(['Total Duration per min']);hold on;
+%  
+% plot(1:(Period), G2medianFishTotalBD_time,'bo-');hold on;
+% errorbar(1:(Period), G2medianFishTotalBD_time, G2_Total_SEM,'b'); hold on;
+%  
+% plot(1:(Period), G0medianFishTotalBD_time,'ro-');hold on;
+% errorbar(1:(Period), G0medianFishTotalBD_time, G2_Total_SEM,'r'); hold on;
+%  
+% xlabel("min");
+% ylabel('TotalBoutDuration');hold on;
+% %grid();
+% hold off;
  
 % saveas(h2,['Total Duration per min.fig'])
 % saveas(h2,['Total Duration per min.png'])
  
  
 %% Distance over time calculations
-close all
-clear variables
-clc
-load('Analysis_SST_4manip_without249frames.mat')
- 
-            nFrames=60385; %EscapeWindow(1);
-            fps= unique([datasetSlowSwimBouts(:).fps]);
-            TimeWindow= 120; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
+
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 G2_Distance_time=[];
@@ -438,30 +430,28 @@ ylabel('BoutDistance in mm');hold on;
 %grid();
 hold off;
  
-% saveas(h3,['Bout Duration per min.fig'])
-% saveas(h3,['Bout Duration per min.png'])
+saveas(h3,['Bout Duration per min.fig'])
+saveas(h3,['Bout Duration per min.eps'])
  
 %% figure(4) Total Distance plot
-h4=figure(4);
-title(['Total Distance over time']);hold on;
-%G2
-plot(1:(Period), G2medianFishTotalDistance_time,'bo-');hold on;
-errorbar(1:(Period), G2medianFishTotalDistance_time, G2_Total_SEM,'b'); hold on;
-%G0
-plot(1:(Period), G0medianFishTotalDistance_time,'ro-');hold on;
-errorbar(1:(Period), G0medianFishTotalDistance_time, G0_Total_SEM,'r'); hold on;
- 
-xlabel("min");
-ylabel('Total Distance in mm');hold on;
-hold off;
- 
-% saveas(h4,['Total Distance per min.fig'])
-% saveas(h4,['Total Distance per min.png'])
+% h4=figure(4);
+% title(['Total Distance over time']);hold on;
+% %G2
+% plot(1:(Period), G2medianFishTotalDistance_time,'bo-');hold on;
+% errorbar(1:(Period), G2medianFishTotalDistance_time, G2_Total_SEM,'b'); hold on;
+% %G0
+% plot(1:(Period), G0medianFishTotalDistance_time,'ro-');hold on;
+% errorbar(1:(Period), G0medianFishTotalDistance_time, G0_Total_SEM,'r'); hold on;
+%  
+% xlabel("min");
+% ylabel('Total Distance in mm');hold on;
+% hold off;
+%  
+% % saveas(h4,['Total Distance per min.fig'])
+% % saveas(h4,['Total Distance per min.png'])
+
 %% nBout per min calculation       
-            nFrames=60634;
-            fps=100;
-            TimeWindow= 60; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
+
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 G2nBoutPerMin=[];
 G2MedianPerMin=[];
@@ -516,18 +506,16 @@ legend('-/-','+/+');
 % saveas(h5,['Median nBoutPerMin.fig'])
 % saveas(h5,['Median nBoutPerMin.png'])  
  
+
+
 %% Amplitude per min       
-            nFrames= 60385;% EscapeWindow(1); %
-            fps= unique([datasetSlowSwimBouts(:).fps]);
-            TimeWindow= 120; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
+
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 G2_BendAmplitude=[];
-G2_medianAmp_BendAmplitude=[];
-G2_medianBout_BendAmplitude=[];
+G2_MaxAmp_BendAmplitude=[];
+G2_medianBout_MaxAmplitude=[];
 G2_medianFish_BendAmplitude=[];
- 
  
 for z= 1:Period;
     z %fprintf(" %d min %d\n",z);
@@ -536,10 +524,10 @@ for z= 1:Period;
         l
  
          if numel(find( ([datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
-            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
+            disp(['empty cell array for time' num2str(z) 'Fish' num2str(l)]);
             G2_BendAmplitude{z}{l}{h}=0;
-            G2_medianAmp_BendAmplitude{z}{l}{h}=0;
-            G2_medianBout_BendAmplitude{z}{l}=0;
+            G2_MaxAmp_BendAmplitude{z}{l}{h}=0;
+            G2_medianBout_MaxAmplitude{z}{l}=0;
             G2_medianFish_BendAmplitude{z}=0;
           
          else
@@ -557,13 +545,15 @@ for z= 1:Period;
 %                 G2_BendAmplitude{z}{l}{h}(a,1)=2;
 %             end
 %             end
-            G2_medianAmp_BendAmplitude{z}{l}{h}=median(abs(G2_BendAmplitude{z}{l}{h}));%median Amplitude of bout h, for fishl, in period z
+            %G2_medianAmp_BendAmplitude{z}{l}{h}=median(abs(G2_BendAmplitude{z}{l}{h}));%median Amplitude of bout h, for fishl, in period z
+            G2_MaxAmp_BendAmplitude{z}{l}{h}=max(abs(G2_BendAmplitude{z}{l}{h}));
             end
             
          end
-          G2_medianBout_BendAmplitude{z}{l}= median(cell2mat(G2_medianAmp_BendAmplitude{1,z}{1,l})); % median of all bout for fish l
-          G2_medianFish_BendAmplitude{z}= median(cell2mat(G2_medianBout_BendAmplitude{1,z}));%median of all fish in period Z
-          G2_SEM(z)=std(cell2mat(G2_medianBout_BendAmplitude{1,z}))/sqrt(length(Fish_G2));
+          %G2_medianBout_BendAmplitude{z}{l}= median(cell2mat(G2_medianAmp_BendAmplitude{1,z}{1,l})); % median of all bout for fish l
+          G2_medianBout_MaxAmplitude{z}{l}= median(cell2mat(G2_MaxAmp_BendAmplitude{1,z}{1,l}));
+          G2_medianFish_BendAmplitude{z}= median(cell2mat(G2_medianBout_MaxAmplitude{1,z}));%median of all fish in period Z
+          G2_SEM(z)=std(cell2mat(G2_medianBout_MaxAmplitude{1,z}))/sqrt(length(Fish_G2));
          
         
     end
@@ -572,8 +562,8 @@ end;
  
 % G0---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 G0_BendAmplitude=[];
-G0_medianAmp_BendAmplitude=[];
-G0_medianBout_BendAmplitude=[];
+G0_MaxAmp_BendAmplitude=[];
+G0_medianBout_MaxAmplitude=[];
 G0_medianFish_BendAmplitude=[];
  
  
@@ -586,8 +576,8 @@ for z= 1:Period;
          if numel(find( ([datasetSlowSwimBouts( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
             disp(['empty Bout for time' num2str(z) 'Fish' num2str(l)]);
             G0_BendAmplitude{z}{l}{h}=0;
-            G0_medianAmp_BendAmplitude{z}{l}{h}=0;
-            G0_medianBout_BendAmplitude{z}{l}=0;
+            G0_MaxAmp_BendAmplitude{z}{l}{h}=0;
+            G0_medianBout_MaxAmplitude{z}{l}=0;
             G0_medianFish_BendAmplitude{z}=0;
           
          else
@@ -605,18 +595,21 @@ for z= 1:Period;
 %                 G0_BendAmplitude{z}{l}{h}(a,1)= 2;
 %             end
 %             end
-            G0_medianAmp_BendAmplitude{z}{l}{h}=median(abs(G0_BendAmplitude{z}{l}{h}));%median Amplitude of bout h, for fishl, in period z
+            %G0_medianAmp_BendAmplitude{z}{l}{h}=median(abs(G0_BendAmplitude{z}{l}{h}));
+             G0_MaxAmp_BendAmplitude{z}{l}{h}=max(abs(G0_BendAmplitude{z}{l}{h}));%median Amplitude of bout h, for fishl, in period z
             end
  
          end
-          G0_medianBout_BendAmplitude{z}{l}= median(cell2mat(G0_medianAmp_BendAmplitude{1,z}{1,l})); % median of all bout for fish l
-          G0_medianFish_BendAmplitude{z}= median(cell2mat(G0_medianBout_BendAmplitude{1,z}));%median of all fish in period Z
-          G0_SEM(z)=std(cell2mat(G0_medianBout_BendAmplitude{1,z}))/sqrt(length(Fish_G0));
+          G0_medianBout_MaxAmplitude{z}{l}= median(cell2mat(G0_MaxAmp_BendAmplitude{1,z}{1,l})); % median of all bout for fish l
+          G0_medianFish_BendAmplitude{z}= median(cell2mat(G0_medianBout_MaxAmplitude{1,z}));%median of all fish in period Z
+          G0_SEM(z)=std(cell2mat(G0_medianBout_MaxAmplitude{1,z}))/sqrt(length(Fish_G0));
      
     end
     
 end;
- 
+
+save('MaxAmpPer2min.mat')
+
 %  figure(7) Amplitude
 h7=figure(7);
 title(['Median Bend_Amplitude per min']);hold on;
@@ -631,15 +624,11 @@ ylabel('Degree');hold on;
  
 hold off;
  
-% saveas(h7,['Bend_Amplitude per min.fig'])
-% saveas(h7,['Bend_Amplitude per min.png'])
+saveas(h7,['Bend_Amplitude per min.fig'])
+saveas(h7,['Bend_Amplitude per min.eps'])
  
 %%  Median NumberOfOscillations over time calculation
-       
-            nFrames= 60634;% EscapeWindow(1); using EscapeWindow(1) for first 5 min calculations
-            fps= unique([datasetSlowSwimBouts(:).fps]);
-            TimeWindow= 60; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
+
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 G2_NumberOfOscillations_time=[];
@@ -664,7 +653,7 @@ for z= 1:Period;
             
          catch
             numel(find( ([datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
-            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
+            disp(['empty cell array for time' num2str(z) 'Fish' num2str(l)]);
             G2_NumberOfOscillations_time{z}{l}=0;
          end;
           
@@ -740,15 +729,11 @@ ylabel('NumberOfOscillations in sec');hold on;
 %grid();
 hold off;
  
-% saveas(h8,['NumberOfOscillations over time.fig'])
-% saveas(h8,['NumberOfOscillations over time.png'])
+saveas(h8,['NumberOfOscillations over time.fig'])
+saveas(h8,['NumberOfOscillations over time.epsc'])
  
 %% Mean NumberOfOscillations over time calculation
-       
-            nFrames= 60634;% EscapeWindow(1); using EscapeWindow(1) for first 5 min calculations
-            fps= unique([datasetSlowSwimBouts(:).fps]);
-            TimeWindow= 60; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
+
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 G2_NumberOfOscillations_time=[];
@@ -853,10 +838,7 @@ hold off;
  
 %% TBF(NumberOfOscillations/Duration) over time calculation
        
-            nFrames= 60634;% EscapeWindow(1); using EscapeWindow(1) for first 5 min calculations
-            fps= unique([datasetSlowSwimBouts(:).fps]);
-            TimeWindow= 60; %in sec
-            Period= nFrames/(fps*TimeWindow); %Period = (210000/(350*60);
+
 % G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
  
 G2_TBF_time=[];
@@ -941,7 +923,8 @@ for z= 1:Period;
     end;
     
 end;
-%% figure(10) TBF(NumberOfOscillations/Duration)
+
+% figure(10) TBF(NumberOfOscillations/Duration)
 h10=figure(10);
 title(['TBF(NumberOfOscillations/Duration) over time']);hold on;
  
@@ -958,5 +941,116 @@ hold off;
  
 % saveas(h10,['TBF over time.fig'])
 % saveas(h10,['TBF over time.png'])
+
+% G2---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+ 
+G2_Speed_time=[];
+G2medianSpeed_time=[];
+G2medianFishSpeed_time=[];
+ 
+G2_Total_Speed_time=[];
+G2medianFishTotalSpeed_time=[];
+for z= 1:Period;
+    z %fprintf(" %d min %d\n",z);
+    for l=1:length(Fish_G2)
+        %fprintf("-- Fish %d --\n",l);
+        l
+       %while [datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1) & [datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z;
+        if z==1;
+            idx_TimeWindow= allindex{Fish_G2(l)}(find( ([datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
+            G2_Speed_time{z}{l} = [datasetSlowSwimBouts(idx_TimeWindow).Speed];
+        else
+            
+         try
+            idx_TimeWindow= allindex{Fish_G2(l)}(find( ([datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
+            G2_Speed_time{z}{l} = [datasetSlowSwimBouts(idx_TimeWindow).Speed];
+       
+            
+         catch
+            numel(find( ([datasetSlowSwimBouts( allindex{Fish_G2(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G2(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
+            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
+            G2_Speed_time{z}{l}=0;
+         end;
+          
+        end;
+ 
+       %end;
+        if isempty(G2_Speed_time{z}{l});
+            G2_Speed_time{z}{l}= 0;
+        end;
+         
+         G2medianSpeed_time{z}{l}= median(G2_Speed_time{1,z}{1,l},'omitnan'); % median BD for fish l
+         G2medianFishSpeed_time(z)= median(cell2mat(G2medianSpeed_time{1,z}),'omitnan');%median of all BD of all fish in period Z
+         G2_SEM(z)=std(cell2mat(G2medianSpeed_time{1,z}))/sqrt(length(Fish_G2));
+         
+         G2_Total_Speed_time{z}{l}= sum(G2_Speed_time{1,z}{1,l},'omitnan'); % sum BD for fish l in period z
+         G2medianFishTotalSpeed_time(z)= median(cell2mat(G2_Total_Speed_time{1,z}),'omitnan');% median of total BD of all fish
+         G2_Total_SEM(z)=std(cell2mat(G2_Total_Speed_time{1,z}))/sqrt(length(Fish_G2));
+    end;
+    
+end;
+ 
+% G0---------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+G0_Speed_time=[];
+G0medianSpeed_time=[];
+G0medianFishSpeed_time=[];
+ 
+G0_Total_Speed_time=[];
+G0medianFishTotalSpeed_time=[];
+for z= 1:Period;
+    z %fprintf(" %d min %d\n",z);
+    for l=1:length(Fish_G0)
+        %fprintf("-- Fish %d --\n",l);
+        l
+       %while [datasetSlowSwimBouts( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1) & [datasetSlowSwimBouts( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z;
+        if z==1;
+            idx_TimeWindow= allindex{Fish_G0(l)}(find( ([datasetSlowSwimBouts( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
+            G0_Speed_time{z}{l} = [datasetSlowSwimBouts(idx_TimeWindow).Speed];
+        else
+            
+         try
+            idx_TimeWindow= allindex{Fish_G0(l)}(find( ([datasetSlowSwimBouts( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ) );
+            G0_Speed_time{z}{l} = [datasetSlowSwimBouts(idx_TimeWindow).Speed];
+       
+            
+         catch
+            numel(find( ([datasetSlowSwimBouts( allindex{Fish_G0(l)} ).BoutStart] > (fps*TimeWindow).*(z-1)) & ([datasetSlowSwimBouts( allindex{Fish_G0(l)}).BoutStart] < (fps*TimeWindow).*z) ))==0 ;
+            disp(['empty cell array all IBIs for time' num2str(z) 'Fish' num2str(l)]);
+            G0_Speed_time{z}{l}=0;
+         end;
+          
+        end;
+ 
+       %end;
+        if isempty(G0_Speed_time{z}{l});
+            G0_Speed_time{z}{l}= 0;
+        end;
+         
+         G0medianSpeed_time{z}{l}= median(G0_Speed_time{1,z}{1,l},'omitnan'); % median BD for fish l
+         G0medianFishSpeed_time(z)= median(cell2mat(G0medianSpeed_time{1,z}),'omitnan');%median of all BD of all fish in period Z
+         G0_SEM(z)=std(cell2mat(G0medianSpeed_time{1,z}))/sqrt(length(Fish_G0));
+         
+         G0_Total_Speed_time{z}{l}= sum(G0_Speed_time{1,z}{1,l},'omitnan'); % sum BD for fish l in period z
+         G0medianFishTotalSpeed_time(z)= median(cell2mat(G0_Total_Speed_time{1,z}),'omitnan');% median of total BD of all fish
+         G0_Total_SEM(z)=std(cell2mat(G0_Total_Speed_time{1,z}))/sqrt(length(Fish_G0));
+    end;
+    
+end;
+ 
+% figure(3) BoutSpeed plot
+h3=figure(3);
+title(['BoutSpeed over time']);hold on;
+%G2
+plot(1:(Period), G2medianFishSpeed_time,'bo-');hold on;
+errorbar(1:(Period), G2medianFishSpeed_time, G2_SEM,'b'); hold on;
+%G0
+plot(1:(Period), G0medianFishSpeed_time,'ro-');hold on;
+errorbar(1:(Period), G0medianFishSpeed_time, G0_SEM,'r'); hold on;
+ 
+xlabel("min");
+ylabel('BoutSpeed in mm');hold on;
+%grid();
+hold off;
+
 
 
