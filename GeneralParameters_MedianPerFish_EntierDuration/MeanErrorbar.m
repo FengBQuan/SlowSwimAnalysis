@@ -15,10 +15,10 @@ mean_gp2= mean(gp2,'omitnan');
 SEM_gp2= std(gp2,'omitnan')/sqrt(numel(gp2));
 
 %%%%%%To delete if use with boxplot
-sz=20;
-scatter(X_gp1, gp1,sz,'b','filled');hold on; % ,'filled'
-scatter(X_gp2, gp2,sz,'r','filled');hold on; % 
-jitter1;hold on;
+% sz=20;
+% scatter(X_gp1, gp1,sz,'b','filled');hold on; % ,'filled'
+% scatter(X_gp2, gp2,sz,'r','filled');hold on; % 
+% jitter2;hold on;
 %%%%%%%
 
 plot(1,mean_gp1,'d','LineWidth',2,'MarkerSize',8,...
@@ -26,10 +26,12 @@ plot(1,mean_gp1,'d','LineWidth',2,'MarkerSize',8,...
 plot(2,mean_gp2,'d','LineWidth',2,'MarkerSize',8,...
 'MarkerEdgeColor','k','MarkerFaceColor',[0.5,0.5,0.5]);hold on;
 
-errorbar(1, mean_gp1, SEM_gp1,'k');hold on;
-errorbar(2, mean_gp2, SEM_gp2,'k');hold on;
+% errorbar(1, mean_gp1, SEM_gp1,'k');hold on;
+% errorbar(2, mean_gp2, SEM_gp2,'k');hold on;
 
-
+%xticklabels({'+/+','+/-','-/-'});
+%xticklabels({'+/+','-/-'});
+%xlim([0 3]);
 hold off;
 
 end
