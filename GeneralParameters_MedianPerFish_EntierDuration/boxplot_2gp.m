@@ -15,10 +15,10 @@ scatter(X1, Gp1,sz,'b','filled');
 
 scatter(X2, Gp2,sz,'r','filled');
 
-jitter1;
+jitter2;
  
 boxplot([Gp1'; Gp2'],group);
-
+xticklabels({'+/+','-/-'});
 hold on;
- 
+
 end

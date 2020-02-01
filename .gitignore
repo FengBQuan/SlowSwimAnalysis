@@ -1,0 +1,8 @@
+result/
+GeneralParameters_MedianPerFish_EntierDuration/
+GeneralParameters_MedianPerFish_OverSectionOfTime/
+*.mat
+AnalysisResults/
+Corrplot/
+DataSetExtract/
+Distribution/
