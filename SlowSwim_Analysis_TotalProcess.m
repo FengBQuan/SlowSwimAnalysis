@@ -25,7 +25,8 @@ DatasetPreEscape= ExtractPreEscape(datasetPerBout);
 %(WT_FWD,WT_RT,Homo_FWD,Homo_RT are percentage)
 h1=figure(1);
 [WT_FWD,WT_RT,Homo_FWD,Homo_RT]=ProportionPie(DatasetPreEscape_GoodSwimmers_FWD,DatasetPreEscape_GoodSwimmers_RT);
-
+saveas(h1,'Pie_5min_GoodSwimmers_30bouts_wo204.fig')
+saveas(h1,'Pie_5min_GoodSwimmers_30bouts_wo204.epsc')
 %% Bout Frequency (1/IBI), BoutRate (nBout/TotalDuration);
 
 output=ParametersCalculations(DatasetPreEscape_GoodSwimmers);
@@ -38,7 +39,8 @@ writetable(Table_AllBehavior);
 % plot BoutRate and BoutFrequency for all Behavior
 h2=figure(2); 
 Plot_BoutRate_BoutFreq(output);
-
+saveas(h2,'BoutRate_5min_GoodSwimmers_30bouts_wo204.fig')
+saveas(h2,'BoutRate_5min_GoodSwimmers_30bouts_wo204.epsc')
 %% Forward Swim: BoutDistance, BoutDuration, Speed, NumOfOsc,TBF,MaxBend,MedianBend.
 clear output
 
@@ -67,8 +69,8 @@ clear output
 
 h3=figure(3); 
 [FWD_Fish_WT,FWD_Fish_Homo,RT_Fish_WT,RT_Fish_Homo] =Plot_FWD_RT(FWD_output,RT_output);
-% saveas(h2,'5min_GoodSwimmers_All_thres25_6Parameters.fig')
-% saveas(h2,'5min_GoodSwimmers_All_thres25_6Parameters.epsc')
+saveas(h2,'5min_GoodSwimmers_thres25_30bouts_wo204.fig')
+saveas(h2,'5min_GoodSwimmers_thres25_30bouts_wo204.epsc')
 
 save('SST_4manip_SlowSwim_TotalProcess_thre25_moreThan0bouts_wo204.mat');
 %% Stat preview
